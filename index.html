@@ -1,24 +1,177 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" >
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Science Olympiad Prep</title>
-  <link rel="stylesheet" href="style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet" />
+  <style>
+    /* Reset & basics */
+    * {
+      box-sizing: border-box;
+    }
+    body, html {
+      margin: 0; padding: 0;
+      height: 100%;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen,
+        Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+      background-color: #121212;
+      color: #e0e0e0;
+      display: flex;
+      overflow: hidden;
+    }
+
+    /* Sidebar */
+    .sidebar {
+      width: 280px;
+      background: #1e1e1e;
+      box-shadow: 3px 0 15px rgba(0,0,0,0.7);
+      padding: 30px 25px;
+      display: flex;
+      flex-direction: column;
+      overflow-y: auto;
+    }
+    .sidebar h2 {
+      font-weight: 800;
+      font-size: 1.5rem;
+      margin-bottom: 20px;
+      color: #4caf50;
+      letter-spacing: 2px;
+      user-select: none;
+      border-bottom: 1px solid #333;
+      padding-bottom: 10px;
+    }
+    .sidebar button {
+      background: #4caf50;
+      border: none;
+      color: #121212;
+      font-weight: 700;
+      padding: 14px 20px;
+      margin-bottom: 15px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 1rem;
+      transition: background 0.3s ease;
+      user-select: none;
+      box-shadow: 0 3px 6px rgba(76,175,80,0.4);
+    }
+    .sidebar button:hover {
+      background: #43a047;
+      box-shadow: 0 4px 12px rgba(67,160,71,0.6);
+    }
+    .sidebar button:active {
+      background: #388e3c;
+      box-shadow: none;
+    }
+    .sidebar button:focus {
+      outline: 2px solid #80e27e;
+      outline-offset: 2px;
+    }
+
+    .sidebar select {
+      background: #2a2a2a;
+      border: none;
+      color: #eee;
+      padding: 12px 16px;
+      border-radius: 5px;
+      margin-bottom: 25px;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: background 0.25s ease;
+      font-weight: 600;
+    }
+    .sidebar select:hover,
+    .sidebar select:focus {
+      background: #3b3b3b;
+      outline: none;
+    }
+
+    #eventsSection {
+      margin-top: 30px;
+      display: none;
+      flex-direction: column;
+    }
+    #eventsSection.active {
+      display: flex;
+    }
+    #eventsSection h3 {
+      font-weight: 700;
+      font-size: 1.15rem;
+      margin-bottom: 10px;
+      color: #7fff7f;
+      user-select: none;
+    }
+
+    /* Main Content */
+    .main {
+      flex-grow: 1;
+      padding: 50px 60px;
+      overflow-y: auto;
+      background: #181818;
+      box-shadow: inset 0 0 50px #000000cc;
+    }
+    .main h1 {
+      font-weight: 900;
+      font-size: 2.8rem;
+      margin-bottom: 25px;
+      letter-spacing: 2px;
+      color: #4caf50;
+      user-select: none;
+    }
+    .main p {
+      font-size: 1.25rem;
+      max-width: 680px;
+      line-height: 1.6;
+      color: #ccc;
+      user-select: text;
+    }
+
+    /* Scrollbars for sidebar and main */
+    .sidebar::-webkit-scrollbar,
+    .main::-webkit-scrollbar {
+      width: 9px;
+    }
+    .sidebar::-webkit-scrollbar-thumb {
+      background-color: #4caf50aa;
+      border-radius: 10px;
+    }
+    .main::-webkit-scrollbar-thumb {
+      background-color: #4caf5088;
+      border-radius: 10px;
+    }
+
+    /* Responsive */
+    @media (max-width: 800px) {
+      body {
+        flex-direction: column;
+      }
+      .sidebar {
+        width: 100%;
+        height: auto;
+        box-shadow: none;
+        padding: 20px;
+        order: 2;
+      }
+      .main {
+        padding: 30px 20px;
+        order: 1;
+      }
+    }
+  </style>
 </head>
 <body>
-  <div class="sidebar">
-    <h2>Select Division</h2>
-    <button onclick="selectDivision('B')">Science Olympiad Division B</button>
-    <button onclick="selectDivision('C')">Science Olympiad Division C</button>
-    <button onclick="goBack()">⬅ Back</button>
+  <div class="sidebar" role="navigation" aria-label="Sidebar navigation">
+    <h2>Choose Division</h2>
+    <button onclick="selectDivision('B')" aria-label="Select Division B">Science Olympiad Division B</button>
+    <button onclick="selectDivision('C')" aria-label="Select Division C">Science Olympiad Division C</button>
+    <button onclick="goBack()" aria-label="Go back to division selection">⬅ Back</button>
 
-    <div id="eventsSection" class="hidden">
+    <div id="eventsSection">
       <h3>Choose Event</h3>
-      <select id="eventSelect"></select>
+      <select id="eventSelect" aria-label="Select event"></select>
 
       <h3>Choose Skill</h3>
-      <select id="skillSelect">
+      <select id="skillSelect" aria-label="Select skill">
         <option>All Skills</option>
         <option>Lab</option>
         <option>Theory</option>
@@ -26,7 +179,7 @@
       </select>
 
       <h3>Choose Difficulty</h3>
-      <select id="difficultySelect">
+      <select id="difficultySelect" aria-label="Select difficulty">
         <option>All Levels</option>
         <option>Easy</option>
         <option>Medium</option>
@@ -35,14 +188,55 @@
     </div>
   </div>
 
-  <div class="main" id="mainContent">
+  <main class="main" id="mainContent" tabindex="0" aria-live="polite" aria-atomic="true">
     <h1>Welcome to Science Olympiad Prep</h1>
     <p>Select a division to begin answering questions.</p>
-  </div>
+  </main>
 
-  <script src="script.js"></script>
+  <script>
+    const eventSelect = document.getElementById('eventSelect');
+    const eventsSection = document.getElementById('eventsSection');
+    const main = document.getElementById('mainContent');
+
+    const events = {
+      B: [
+        'Anatomy and Physiology',
+        'Crime Busters',
+        'Meteorology',
+        'Road Scholar'
+      ],
+      C: [
+        'Disease Detectives',
+        'Forensics',
+        'Astronomy',
+        'Experimental Design'
+      ]
+    };
+
+    function selectDivision(division) {
+      eventSelect.innerHTML = '';
+      events[division].forEach(event => {
+        const opt = document.createElement('option');
+        opt.value = event;
+        opt.textContent = event;
+        eventSelect.appendChild(opt);
+      });
+      eventsSection.classList.add('active');
+      main.innerHTML = `<h1>Division ${division} - Question Page</h1><p>Select an event and filters on the left to get started.</p>`;
+      // Move keyboard focus to main content for accessibility
+      main.focus();
+    }
+
+    function goBack() {
+      eventsSection.classList.remove('active');
+      main.innerHTML = `<h1>Welcome to Science Olympiad Prep</h1><p>Select a division to begin answering questions.</p>`;
+      // Move keyboard focus to main content for accessibility
+      main.focus();
+    }
+  </script>
 </body>
 </html>
+
 
 
 
