@@ -4,58 +4,14 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Science Olympiad Prep</title>
-  <style>
-    * {
-      box-sizing: border-box;
-    }
-    body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-      display: flex;
-      background-color: #000;
-      color: #fff;
-    }
-    .sidebar {
-      width: 250px;
-      background-color: #111;
-      padding: 20px;
-      height: 100vh;
-      overflow-y: auto;
-    }
-    .sidebar h2, .sidebar h3 {
-      color: #1db954;
-      margin-top: 1rem;
-    }
-    .sidebar button, .sidebar select {
-      width: 100%;
-      margin: 10px 0;
-      padding: 10px;
-      background-color: #1db954;
-      color: #000;
-      font-weight: bold;
-      border: none;
-      cursor: pointer;
-    }
-    .sidebar button:hover, .sidebar select:hover {
-      background-color: #17a44b;
-    }
-    .main {
-      flex-grow: 1;
-      padding: 20px;
-    }
-    .hidden {
-      display: none;
-    }
-    .dropdown {
-      margin-top: 10px;
-    }
-  </style>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
   <div class="sidebar">
     <h2>Select Division</h2>
     <button onclick="selectDivision('B')">Science Olympiad Division B</button>
     <button onclick="selectDivision('C')">Science Olympiad Division C</button>
+    <button onclick="goBack()">⬅ Back</button>
 
     <div id="eventsSection" class="hidden">
       <h3>Choose Event</h3>
@@ -67,7 +23,6 @@
         <option>Lab</option>
         <option>Theory</option>
         <option>Calculation</option>
-        <!-- Add more as needed -->
       </select>
 
       <h3>Choose Difficulty</h3>
@@ -80,47 +35,15 @@
     </div>
   </div>
 
-  <div class="main">
+  <div class="main" id="mainContent">
     <h1>Welcome to Science Olympiad Prep</h1>
     <p>Select a division to begin answering questions.</p>
   </div>
 
-  <script>
-    const eventSelect = document.getElementById('eventSelect');
-    const eventsSection = document.getElementById('eventsSection');
-    const main = document.querySelector('.main');
-
-    const events = {
-      B: [
-        'Anatomy and Physiology',
-        'Crime Busters',
-        'Meteorology',
-        'Road Scholar'
-        // Add more Division B events
-      ],
-      C: [
-        'Disease Detectives',
-        'Forensics',
-        'Astronomy',
-        'Experimental Design'
-        // Add more Division C events
-      ]
-    };
-
-    function selectDivision(division) {
-      eventSelect.innerHTML = '';
-      events[division].forEach(event => {
-        const opt = document.createElement('option');
-        opt.value = event;
-        opt.textContent = event;
-        eventSelect.appendChild(opt);
-      });
-      eventsSection.classList.remove('hidden');
-      main.innerHTML = `<h1>Division ${division} - Question Page</h1><p>Select an event and filters on the left to get started.</p>`;
-    }
-  </script>
+  <script src="script.js"></script>
 </body>
 </html>
+
 
 
 
