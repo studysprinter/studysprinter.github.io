@@ -2,89 +2,125 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Biology Test Prep</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Science Olympiad Prep</title>
   <style>
+    * {
+      box-sizing: border-box;
+    }
     body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      display: flex;
       background-color: #000;
-      color: #eee;
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
-        Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
-      max-width: 720px;
-      margin: 3rem auto;
-      padding: 0 1.5rem;
-      line-height: 1.6;
+      color: #fff;
     }
-    header {
-      text-align: center;
-      margin-bottom: 3rem;
+    .sidebar {
+      width: 250px;
+      background-color: #111;
+      padding: 20px;
+      height: 100vh;
+      overflow-y: auto;
     }
-    h1 {
-      font-weight: 800;
-      font-size: 3rem;
+    .sidebar h2, .sidebar h3 {
       color: #1db954;
-      margin-bottom: 0.3rem;
-      letter-spacing: 2px;
-      text-transform: uppercase;
+      margin-top: 1rem;
     }
-    p {
-      font-size: 1.25rem;
-      color: #ccc;
-      max-width: 600px;
-      margin: 0 auto;
+    .sidebar button, .sidebar select {
+      width: 100%;
+      margin: 10px 0;
+      padding: 10px;
+      background-color: #1db954;
+      color: #000;
+      font-weight: bold;
+      border: none;
+      cursor: pointer;
     }
-    nav {
-      margin-top: 3rem;
-      text-align: center;
+    .sidebar button:hover, .sidebar select:hover {
+      background-color: #17a44b;
     }
-    nav a {
-      margin: 0 1.3rem;
-      color: #1db954;
-      text-decoration: none;
-      font-weight: 700;
-      font-size: 1.125rem;
-      padding-bottom: 4px;
-      border-bottom: 2px solid transparent;
-      transition: border-color 0.3s ease;
+    .main {
+      flex-grow: 1;
+      padding: 20px;
     }
-    nav a:hover,
-    nav a:focus {
-      border-bottom: 2px solid #1db954;
-      outline: none;
+    .hidden {
+      display: none;
     }
-    main section {
-      text-align: center;
-      max-width: 600px;
-      margin: 0 auto;
-    }
-    h2 {
-      font-weight: 700;
-      font-size: 2rem;
-      margin-bottom: 1rem;
-      color: #eee;
-      letter-spacing: 1.5px;
-      text-transform: uppercase;
+    .dropdown {
+      margin-top: 10px;
     }
   </style>
 </head>
 <body>
-  <header>
-    <h1>Biology Test Prep</h1>
-    <p>Your reliable site for mastering biology exams with effective practice questions and expert study tips.</p>
-  </header>
+  <div class="sidebar">
+    <h2>Select Division</h2>
+    <button onclick="selectDivision('B')">Science Olympiad Division B</button>
+    <button onclick="selectDivision('C')">Science Olympiad Division C</button>
 
-  <main>
-    <section>
-      <h2>Get Started</h2>
-      <p>Explore our curated biology quizzes and study resources tailored to your test goals.</p>
-      <nav>
-        <a href="#">Practice Quizzes</a>
-        <a href="#">Study Tips</a>
-        <a href="#">Contact</a>
-      </nav>
-    </section>
-  </main>
+    <div id="eventsSection" class="hidden">
+      <h3>Choose Event</h3>
+      <select id="eventSelect"></select>
+
+      <h3>Choose Skill</h3>
+      <select id="skillSelect">
+        <option>All Skills</option>
+        <option>Lab</option>
+        <option>Theory</option>
+        <option>Calculation</option>
+        <!-- Add more as needed -->
+      </select>
+
+      <h3>Choose Difficulty</h3>
+      <select id="difficultySelect">
+        <option>All Levels</option>
+        <option>Easy</option>
+        <option>Medium</option>
+        <option>Hard</option>
+      </select>
+    </div>
+  </div>
+
+  <div class="main">
+    <h1>Welcome to Science Olympiad Prep</h1>
+    <p>Select a division to begin answering questions.</p>
+  </div>
+
+  <script>
+    const eventSelect = document.getElementById('eventSelect');
+    const eventsSection = document.getElementById('eventsSection');
+    const main = document.querySelector('.main');
+
+    const events = {
+      B: [
+        'Anatomy and Physiology',
+        'Crime Busters',
+        'Meteorology',
+        'Road Scholar'
+        // Add more Division B events
+      ],
+      C: [
+        'Disease Detectives',
+        'Forensics',
+        'Astronomy',
+        'Experimental Design'
+        // Add more Division C events
+      ]
+    };
+
+    function selectDivision(division) {
+      eventSelect.innerHTML = '';
+      events[division].forEach(event => {
+        const opt = document.createElement('option');
+        opt.value = event;
+        opt.textContent = event;
+        eventSelect.appendChild(opt);
+      });
+      eventsSection.classList.remove('hidden');
+      main.innerHTML = `<h1>Division ${division} - Question Page</h1><p>Select an event and filters on the left to get started.</p>`;
+    }
+  </script>
 </body>
 </html>
+
 
 
