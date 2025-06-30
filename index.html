@@ -96,11 +96,33 @@
       letter-spacing: 2px;
       color: #4caf50;
     }
-    .main p {
+    .main p, .main form {
       font-size: 1.25rem;
       max-width: 680px;
       line-height: 1.6;
       color: #ccc;
+    }
+    .main input[type="text"] {
+      padding: 10px;
+      font-size: 1rem;
+      width: 100%;
+      margin-top: 10px;
+      margin-bottom: 10px;
+      border-radius: 4px;
+      border: none;
+    }
+    .main button.submit {
+      padding: 10px 15px;
+      font-size: 1rem;
+      background-color: #4caf50;
+      color: black;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    .feedback {
+      margin-top: 20px;
+      font-weight: bold;
     }
   </style>
 </head>
@@ -126,6 +148,8 @@
         <option>2022</option>
         <option>2021</option>
       </select>
+
+      <button onclick="loadQuestion()">Load Question</button>
     </div>
   </div>
 
@@ -136,11 +160,7 @@
 
   <script>
     const events = {
-      B: [
-        'Entomology',
-        'Disease Detectives',
-        'Anatomy and Physiology'
-      ],
+      B: ['Entomology', 'Disease Detectives', 'Anatomy and Physiology'],
       C: []
     };
 
@@ -166,7 +186,7 @@
       });
       eventsSection.classList.add('active');
       updateSkills();
-      main.innerHTML = `<h1>Division ${division} - Question Page</h1><p>Select an event, skill, and year on the left to get started.</p>`;
+      main.innerHTML = `<h1>Division ${division} - Question Page</h1><p>Select an event, skill, and year on the left, then load a question.</p>`;
 
       fetch('questions.json')
         .then(res => res.json())
@@ -188,6 +208,43 @@
       });
     }
 
+    function loadQuestion() {
+      const event = document.getElementById('eventSelect').value;
+      const skill = document.getElementById('skillSelect').value;
+      const year = parseInt(document.getElementById('yearSelect').value);
+      const main = document.getElementById('mainContent');
+
+      const matches = allQuestions.filter(q => q.event === event && q.skill === skill && q.year === year);
+      if (matches.length === 0) {
+        main.innerHTML = `<h1>${event}</h1><p>No questions found for selected filters.</p>`;
+        return;
+      }
+
+      const q = matches[Math.floor(Math.random() * matches.length)];
+      main.innerHTML = `
+        <h1>${event} - ${skill} (${year})</h1>
+        <p>${q.question}</p>
+        <form onsubmit="checkAnswer(event, '${q.answer}')">
+          <input type="text" id="userAnswer" placeholder="Type your answer here..." required />
+          <button class="submit" type="submit">Submit</button>
+        </form>
+        <div id="feedback" class="feedback"></div>
+      `;
+    }
+
+    function checkAnswer(event, correctAnswer) {
+      event.preventDefault();
+      const userAnswer = document.getElementById('userAnswer').value.trim().toLowerCase();
+      const correct = correctAnswer.trim().toLowerCase();
+      const feedback = document.getElementById('feedback');
+
+      if (userAnswer === correct) {
+        feedback.innerHTML = '<span style="color: #4caf50">✅ Correct!</span>';
+      } else {
+        feedback.innerHTML = `<span style="color: #f44336">❌ Incorrect.</span> Correct answer: <strong>${correctAnswer}</strong>`;
+      }
+    }
+
     function goBack() {
       document.getElementById('eventsSection').classList.remove('active');
       document.getElementById('mainContent').innerHTML = `
@@ -197,6 +254,7 @@
   </script>
 </body>
 </html>
+
 
 
 
