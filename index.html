@@ -49,114 +49,153 @@
     <p>Select a division to begin answering questions.</p>
   </div>
 
-  <script>
-    const events = {
-      B: ['Entomology', 'Disease Detectives', 'Anatomy and Physiology'],
-      C: []
-    };
-    const skills = {
-      'Entomology': ['Identification','Multiple Choice','Everything Else'],
-      'Disease Detectives': ['Math','Vocab','Full Case Studies','Multiple Choice','Everything Else'],
-      'Anatomy and Physiology': ['Diagrams','Multiple Choice','Everything Else']
-    };
-    let allQuestions = [];
-    let questionsLoaded = false;
-    let currentDivision = null;
-    let currentDifficulty = 1;
-    const maxDifficulty = 3;
-    let lastQuestion = null;
+<script>
+  const events = {
+    B: ['Entomology', 'Disease Detectives', 'Anatomy and Physiology'],
+    C: []
+  };
 
-    // Preload questions.json once
-    window.onload = async () => {
-      try {
-        const res = await fetch('./questions.json');
-        allQuestions = await res.json();
-        questionsLoaded = true;
-      } catch (e) {
-        console.error('Failed to load questions.json', e);
-        document.getElementById('mainContent').innerHTML = '<p style="color:red">Error loading questions. Ensure questions.json is deployed alongside index.html.</p>';
+  const skills = {
+    'Entomology': ['Identification','Multiple Choice','Everything Else'],
+    'Disease Detectives': ['Math','Vocab','Full Case Studies','Multiple Choice','Everything Else'],
+    'Anatomy and Physiology': ['Diagrams','Multiple Choice','Everything Else']
+  };
+
+  let allQuestions = [];
+  let questionsLoaded = false;
+  let currentDivision = null;
+  let currentDifficulty = 1;
+  const maxDifficulty = 3;
+  let lastQuestion = null;
+
+  window.onload = async () => {
+    try {
+      const res = await fetch('./questions.json');
+      allQuestions = await res.json();
+      questionsLoaded = true;
+    } catch (e) {
+      console.error('Failed to load questions.json', e);
+      document.getElementById('mainContent').innerHTML = '<p style="color:red">Error loading questions. Ensure questions.json is deployed alongside index.html.</p>';
+    }
+  };
+
+  function selectDivision(div) {
+    currentDivision = div;
+    const eventSelect = document.getElementById('eventSelect');
+    eventSelect.innerHTML = '';
+    events[div].forEach(ev => {
+      const opt = document.createElement('option'); opt.value = ev; opt.textContent = ev; eventSelect.appendChild(opt);
+    });
+    updateSkills();
+    document.getElementById('eventsSection').style.display = 'block';
+    document.getElementById('mainContent').innerHTML = `<h1>Division ${div} - Question Page</h1><p>Select an event, skill (must be Multiple Choice), and year on the left, then click Next Question.</p>`;
+    currentDifficulty = 1;
+    lastQuestion = null;
+  }
+
+  function updateSkills() {
+    const event = document.getElementById('eventSelect').value;
+    const skillSelect = document.getElementById('skillSelect');
+    skillSelect.innerHTML = '';
+    (skills[event]||[]).forEach(skill => {
+      const opt = document.createElement('option'); opt.value = skill; opt.textContent = skill; skillSelect.appendChild(opt);
+    });
+    skillChanged();
+  }
+
+  function skillChanged() {
+    const skill = document.getElementById('skillSelect').value;
+    if(skill==='Multiple Choice') {
+      document.getElementById('mainContent').innerHTML = '<h1>Ready for Multiple Choice Questions</h1><p>Click Next Question to start.</p>';
+    } else {
+      document.getElementById('mainContent').innerHTML = '<h1>No questions available</h1><p>Please select "Multiple Choice" skill to get questions.</p>';
+    }
+  }
+
+  function filterQuestions(event, skill, difficulty, selectedYear) {
+    return allQuestions.filter(q => {
+      if (q.event !== event) return false;
+      if (q.skill !== skill) return false;
+      if (q.difficulty !== difficulty) return false;
+
+      // If question year is "all", year doesn't matter
+      if (q.year === "all") return true;
+
+      // For Anatomy and Physiology, year filter applies strictly
+      if (event === "Anatomy and Physiology") {
+        return q.year === selectedYear;
       }
-    };
 
-    function selectDivision(div) {
-      currentDivision = div;
-      const eventSelect = document.getElementById('eventSelect');
-      eventSelect.innerHTML = '';
-      events[div].forEach(ev => {
-        const opt = document.createElement('option'); opt.value = ev; opt.textContent = ev; eventSelect.appendChild(opt);
-      });
-      updateSkills();
-      document.getElementById('eventsSection').style.display = 'block';
-      document.getElementById('mainContent').innerHTML = `<h1>Division ${div} - Question Page</h1><p>Select an event, skill (must be Multiple Choice), and year on the left, then click Next Question.</p>`;
-      currentDifficulty = 1;
+      // For other events (Entomology, Disease Detectives), ignore year filter
+      return true;
+    });
+  }
+
+  function nextQuestion() {
+    if(!questionsLoaded) { alert('Questions are still loading—please wait a moment.'); return; }
+    const event = document.getElementById('eventSelect').value;
+    const skill = document.getElementById('skillSelect').value;
+    const year = document.getElementById('yearSelect').value;
+
+    if(skill!=='Multiple Choice') {
+      alert("Please select 'Multiple Choice' skill to get questions.");
+      return;
     }
 
-    function updateSkills() {
-      const event = document.getElementById('eventSelect').value;
-      const skillSelect = document.getElementById('skillSelect');
-      skillSelect.innerHTML = '';
-      (skills[event]||[]).forEach(skill => {
-        const opt = document.createElement('option'); opt.value = skill; opt.textContent = skill; skillSelect.appendChild(opt);
-      });
-      skillChanged();
+    let candidates = filterQuestions(event, skill, currentDifficulty, year);
+    if(candidates.length===0) {
+      // Try lower difficulties if no questions found at current difficulty
+      for(let d = currentDifficulty - 1; d >= 1; d--) {
+        candidates = filterQuestions(event, skill, d, year);
+        if(candidates.length > 0) {
+          currentDifficulty = d;
+          break;
+        }
+      }
+      if(candidates.length === 0) {
+        document.getElementById('mainContent').innerHTML = '<h1>No questions found.</h1>';
+        return;
+      }
     }
 
-    function skillChanged() {
-      const skill = document.getElementById('skillSelect').value;
-      if(skill==='Multiple Choice') {
-        document.getElementById('mainContent').innerHTML = '<h1>Ready for Multiple Choice Questions</h1><p>Click Next Question to start.</p>';
+    let q;
+    do {
+      q = candidates[Math.floor(Math.random() * candidates.length)];
+    } while (q === lastQuestion && candidates.length > 1);
+    lastQuestion = q;
+
+    let html = `<form id="answerForm">`;
+    q.choices.forEach(choice => {
+      html += `<label><input type="radio" name="userAnswer" value="${choice}" required> ${choice}</label>`;
+    });
+    html += `<button type="submit">Submit</button></form><div id="feedback"></div>`;
+
+    document.getElementById('mainContent').innerHTML =
+      `<h1>${q.event} - ${q.skill} (Difficulty: ${q.difficulty})</h1><p>${q.question}</p>${html}`;
+
+    document.getElementById('answerForm').addEventListener('submit', e => {
+      e.preventDefault();
+      const selected = document.querySelector('input[name="userAnswer"]:checked').value;
+      const fb = document.getElementById('feedback');
+      if(selected.toLowerCase() === q.answer.toLowerCase()) {
+        fb.innerHTML = '<span style="color:#4caf50">✅ Correct!</span>';
+        if(currentDifficulty < maxDifficulty) currentDifficulty++;
       } else {
-        document.getElementById('mainContent').innerHTML = '<h1>No questions available</h1><p>Please select \"Multiple Choice\" skill to get questions.</p>';
+        fb.innerHTML = `<span style="color:#f44336">❌ Incorrect.</span> Correct answer: <strong>${q.answer}</strong>`;
+        if(currentDifficulty > 1) currentDifficulty--;
       }
-    }
+    });
+  }
 
-    function filterQuestions(event, skill, difficulty) {
-      return allQuestions.filter(q => q.event===event && q.skill===skill && q.difficulty===difficulty);
-    }
-
-    function nextQuestion() {
-      if(!questionsLoaded) { alert('Questions are still loading—please wait a moment.'); return; }
-      const event = document.getElementById('eventSelect').value;
-      const skill = document.getElementById('skillSelect').value;
-      if(skill!=='Multiple Choice') { alert("Please select 'Multiple Choice' skill to get questions."); return; }
-      let candidates = filterQuestions(event, skill, currentDifficulty);
-      if(candidates.length===0) {
-        for(let d=currentDifficulty-1; d>=1; d--) {
-          candidates = filterQuestions(event, skill, d);
-          if(candidates.length>0) { currentDifficulty=d; break; }
-        }
-        if(candidates.length===0) { document.getElementById('mainContent').innerHTML='<h1>No questions found.</h1>'; return; }
-      }
-      let q;
-      do { q=candidates[Math.floor(Math.random()*candidates.length)]; }
-      while(q===lastQuestion && candidates.length>1);
-      lastQuestion=q;
-
-      let html=`<form id="answerForm">`;
-      q.choices.forEach(choice=>{ html+=`<label><input type="radio" name="userAnswer" value="${choice}" required> ${choice}</label>`; });
-      html+=`<button type="submit">Submit</button></form><div id="feedback"></div>`;
-      document.getElementById('mainContent').innerHTML=
-        `<h1>${q.event} - ${q.skill} (Difficulty: ${q.difficulty})</h1><p>${q.question}</p>${html}`;
-      document.getElementById('answerForm').addEventListener('submit',e=>{
-        e.preventDefault(); const selected=document.querySelector('input[name="userAnswer"]:checked').value;
-        const fb=document.getElementById('feedback');
-        if(selected.toLowerCase()===q.answer.toLowerCase()) {
-          fb.innerHTML='<span style="color:#4caf50">✅ Correct!</span>'; if(currentDifficulty<maxDifficulty) currentDifficulty++;
-        } else {
-          fb.innerHTML=`<span style="color:#f44336">❌ Incorrect.</span> Correct answer: <strong>${q.answer}</strong>`;
-          if(currentDifficulty>1) currentDifficulty--;
-        }
-      });
-    }
-
-    function goBack() {
-      document.getElementById('eventsSection').style.display='none';
-      document.getElementById('mainContent').innerHTML=
-        `<h1>Welcome to Science Olympiad Prep</h1><p>Select a division to begin answering questions.</p>`;
-    }
-  </script>
+  function goBack() {
+    document.getElementById('eventsSection').style.display = 'none';
+    document.getElementById('mainContent').innerHTML =
+      `<h1>Welcome to Science Olympiad Prep</h1><p>Select a division to begin answering questions.</p>`;
+  }
+</script>
 </body>
 </html>
+
 
 
 
