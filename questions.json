@@ -1,192 +1,164 @@
 [
   {
-    "type": "MC",
     "event": "Entomology",
     "skill": "Multiple Choice",
-    "year": "all",
+    "difficulty": 1,
     "question": "What is the function of the elytra in beetles?",
     "choices": ["Feeding", "Protection", "Hearing", "Breathing"],
     "answer": "Protection"
-  }
-  {
-    "type": "MC",
-    "event": "Entomology",
-    "skill": "Multiple Choice",
-    "year": "all",
-    "question": "Which order do butterflies belong to?",
-    "choices": ["Coleoptera", "Diptera", "Lepidoptera", "Hemiptera"],
-    "answer": "Lepidoptera"
   },
   {
-    "type": "MC",
     "event": "Entomology",
     "skill": "Multiple Choice",
-    "year": "all",
-    "question": "What type of metamorphosis do beetles undergo?",
-    "choices": ["Incomplete", "Gradual", "Complete", "Partial"],
+    "difficulty": 1,
+    "question": "Which insect produces honey?",
+    "choices": ["Bee", "Ant", "Butterfly", "Mosquito"],
+    "answer": "Bee"
+  },
+  {
+    "event": "Entomology",
+    "skill": "Multiple Choice",
+    "difficulty": 1,
+    "question": "What part of the insect's body contains the wings?",
+    "choices": ["Head", "Thorax", "Abdomen", "Legs"],
+    "answer": "Thorax"
+  },
+  {
+    "event": "Entomology",
+    "skill": "Multiple Choice",
+    "difficulty": 2,
+    "question": "What type of metamorphosis does a butterfly undergo?",
+    "choices": ["Incomplete", "Complete", "No metamorphosis", "Gradual"],
     "answer": "Complete"
   },
   {
-    "type": "MC",
     "event": "Entomology",
     "skill": "Multiple Choice",
-    "year": "all",
-    "question": "The compound eyes of insects are composed of units called:",
-    "choices": ["Ommatidia", "Chorion", "Spiracles", "Mandibles"],
-    "answer": "Ommatidia"
+    "difficulty": 2,
+    "question": "What is the main purpose of the insect antennae?",
+    "choices": ["Hearing", "Smell", "Movement", "Breathing"],
+    "answer": "Smell"
   },
   {
-    "type": "MC",
     "event": "Entomology",
     "skill": "Multiple Choice",
-    "year": "all",
-    "question": "Which structure is primarily responsible for gas exchange in insects?",
-    "choices": ["Antennae", "Trachea", "Malpighian tubules", "Crop"],
-    "answer": "Trachea"
+    "difficulty": 3,
+    "question": "In insect anatomy, what is the name of the hard exoskeleton plates?",
+    "choices": ["Sclerites", "Setae", "Spiracles", "Ocelli"],
+    "answer": "Sclerites"
   },
   {
-    "type": "MC",
     "event": "Entomology",
     "skill": "Multiple Choice",
-    "year": "all",
-    "question": "Which insect order includes true bugs?",
-    "choices": ["Orthoptera", "Hemiptera", "Diptera", "Thysanura"],
-    "answer": "Hemiptera"
-  },
-  {
-    "type": "MC",
-    "event": "Entomology",
-    "skill": "Multiple Choice",
-    "year": "all",
-    "question": "What is the primary function of halteres in flies?",
-    "choices": ["Feeding", "Balance", "Mating", "Hearing"],
-    "answer": "Balance"
-  },
-  {
-    "type": "MC",
-    "event": "Entomology",
-    "skill": "Multiple Choice",
-    "year": "all",
-    "question": "What is the hardened forewing of beetles called?",
-    "choices": ["Elytra", "Tegmina", "Haltere", "Furcula"],
-    "answer": "Elytra"
-  },
-  {
-    "type": "MC",
-    "event": "Entomology",
-    "skill": "Multiple Choice",
-    "year": "all",
-    "question": "Which of these insects is NOT holometabolous?",
-    "choices": ["Beetle", "Butterfly", "Grasshopper", "Fly"],
-    "answer": "Grasshopper"
-  },
-  {
-    "type": "MC",
-    "event": "Entomology",
-    "skill": "Multiple Choice",
-    "year": "all",
-    "question": "Which insect family includes fireflies?",
-    "choices": ["Curculionidae", "Coccinellidae", "Lampyridae", "Formicidae"],
-    "answer": "Lampyridae"
-  },
-  {
-    "type": "MC",
-    "event": "Entomology",
-    "skill": "Multiple Choice",
-    "year": "all",
-    "question": "Which of these insects uses stridulation to produce sound?",
-    "choices": ["Ants", "Grasshoppers", "Mosquitoes", "Butterflies"],
-    "answer": "Grasshoppers"
+    "difficulty": 3,
+    "question": "Which insect order is characterized by having scales on their wings?",
+    "choices": ["Coleoptera", "Lepidoptera", "Diptera", "Hymenoptera"],
+    "answer": "Lepidoptera"
   },
 
   {
-    "type": "MC",
-    "event": "Entomology",
+    "event": "Disease Detectives",
     "skill": "Multiple Choice",
-    "year": "all",
-    "question": "Which part of the insect digestive system absorbs nutrients?",
-    "choices": ["Foregut", "Hindgut", "Midgut", "Crop"],
-    "answer": "Midgut"
+    "difficulty": 1,
+    "question": "What does 'incidence rate' measure?",
+    "choices": ["New cases", "Existing cases", "Deaths", "Recovered cases"],
+    "answer": "New cases"
   },
   {
-    "type": "MC",
-    "event": "Entomology",
+    "event": "Disease Detectives",
     "skill": "Multiple Choice",
-    "year": "all",
-    "question": "Insect antennae are primarily used for:",
-    "choices": ["Hearing", "Mating", "Navigation", "Sensing environment"],
-    "answer": "Sensing environment"
+    "difficulty": 1,
+    "question": "Which of the following is a common mode of disease transmission?",
+    "choices": ["Airborne", "Photosynthesis", "Combustion", "Evaporation"],
+    "answer": "Airborne"
   },
   {
-    "type": "MC",
-    "event": "Entomology",
+    "event": "Disease Detectives",
     "skill": "Multiple Choice",
-    "year": "all",
-    "question": "Which family do honeybees belong to?",
-    "choices": ["Apidae", "Formicidae", "Vespidae", "Ichneumonidae"],
-    "answer": "Apidae"
+    "difficulty": 2,
+    "question": "What type of study observes a group over time to determine disease development?",
+    "choices": ["Cohort study", "Case-control study", "Cross-sectional study", "Experimental study"],
+    "answer": "Cohort study"
   },
   {
-    "type": "MC",
-    "event": "Entomology",
+    "event": "Disease Detectives",
     "skill": "Multiple Choice",
-    "year": "all",
-    "question": "What is the function of Malpighian tubules in insects?",
-    "choices": ["Hearing", "Excretion", "Digestion", "Respiration"],
-    "answer": "Excretion"
+    "difficulty": 2,
+    "question": "Which measure estimates the strength of association between exposure and disease?",
+    "choices": ["Relative risk", "Prevalence", "Incidence", "Morbidity"],
+    "answer": "Relative risk"
   },
   {
-    "type": "MC",
-    "event": "Entomology",
+    "event": "Disease Detectives",
     "skill": "Multiple Choice",
-    "year": "all",
-    "question": "The suffix '-ptera' in insect orders refers to:",
-    "choices": ["Mouthparts", "Wings", "Legs", "Antennae"],
-    "answer": "Wings"
+    "difficulty": 3,
+    "question": "What is a confounding variable?",
+    "choices": [
+      "A variable that distorts the association between exposure and outcome",
+      "A type of virus",
+      "An unrelated variable",
+      "A statistical test"
+    ],
+    "answer": "A variable that distorts the association between exposure and outcome"
   },
   {
-    "type": "MC",
-    "event": "Entomology",
+    "event": "Disease Detectives",
     "skill": "Multiple Choice",
-    "year": "all",
-    "question": "Which of the following has aquatic nymphs?",
-    "choices": ["Coleoptera", "Ephemeroptera", "Orthoptera", "Hymenoptera"],
-    "answer": "Ephemeroptera"
+    "difficulty": 3,
+    "question": "Which bias occurs when participants drop out of a longitudinal study?",
+    "choices": ["Attrition bias", "Selection bias", "Recall bias", "Detection bias"],
+    "answer": "Attrition bias"
+  },
+
+  {
+    "event": "Anatomy and Physiology",
+    "skill": "Multiple Choice",
+    "difficulty": 1,
+    "question": "Which part of the neuron receives signals?",
+    "choices": ["Axon", "Dendrite", "Myelin sheath", "Synapse"],
+    "answer": "Dendrite"
   },
   {
-    "type": "MC",
-    "event": "Entomology",
+    "event": "Anatomy and Physiology",
     "skill": "Multiple Choice",
-    "year": "all",
-    "question": "Which part of an insect's leg is closest to the body?",
-    "choices": ["Tarsus", "Tibia", "Femur", "Coxa"],
-    "answer": "Coxa"
+    "difficulty": 1,
+    "question": "What organ produces insulin?",
+    "choices": ["Thyroid", "Pancreas", "Adrenal gland", "Pituitary gland"],
+    "answer": "Pancreas"
   },
   {
-    "type": "MC",
-    "event": "Entomology",
+    "event": "Anatomy and Physiology",
     "skill": "Multiple Choice",
-    "year": "all",
-    "question": "Which structure controls the flow of air in insect respiration?",
-    "choices": ["Trachea", "Malpighian tubules", "Spiracles", "Antennae"],
-    "answer": "Spiracles"
+    "difficulty": 2,
+    "question": "Which lobe of the brain processes visual information?",
+    "choices": ["Frontal", "Occipital", "Temporal", "Parietal"],
+    "answer": "Occipital"
   },
   {
-    "type": "MC",
-    "event": "Entomology",
+    "event": "Anatomy and Physiology",
     "skill": "Multiple Choice",
-    "year": "all",
-    "question": "What is the main protein in insect cuticle?",
-    "choices": ["Keratin", "Collagen", "Chitin", "Myosin"],
-    "answer": "Chitin"
+    "difficulty": 2,
+    "question": "What is the role of the hypothalamus?",
+    "choices": ["Regulate hormones", "Control heart rate", "Digest food", "Filter blood"],
+    "answer": "Regulate hormones"
   },
   {
-    "type": "MC",
-    "event": "Entomology",
+    "event": "Anatomy and Physiology",
     "skill": "Multiple Choice",
-    "year": "all",
-    "question": "The main function of the insect crop is to:",
-    "choices": ["Absorb nutrients", "Excrete waste", "Store food", "Produce enzymes"],
-    "answer": "Store food"
+    "difficulty": 3,
+    "question": "Which gland secretes adrenocorticotropic hormone (ACTH)?",
+    "choices": ["Pituitary gland", "Thyroid gland", "Adrenal gland", "Pineal gland"],
+    "answer": "Pituitary gland"
+  },
+  {
+    "event": "Anatomy and Physiology",
+    "skill": "Multiple Choice",
+    "difficulty": 3,
+    "question": "Where are the photoreceptors located in the eye?",
+    "choices": ["Cornea", "Retina", "Lens", "Iris"],
+    "answer": "Retina"
   }
+
+  // ... continue adding more questions to reach 100+
 ]
+
