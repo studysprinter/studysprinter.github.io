@@ -2,7 +2,7 @@
   {
     "type": "MC",
     "event": "Entomology",
-    "skill": "Everything Else",
+    "skill": "Multiple Choice",
     "year": 2025,
     "question": "What is the function of the elytra in beetles?",
     "choices": ["Feeding", "Protection", "Hearing", "Breathing"],
