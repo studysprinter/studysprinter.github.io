@@ -151,7 +151,7 @@
         <option>2021</option>
       </select>
 
-      <button onclick="loadQuestion()">Load Question</button>
+      <button id="nextQuestionBtn">Next Question</button>
     </div>
   </div>
 
@@ -173,6 +173,7 @@
     };
 
     let allQuestions = [];
+    let currentQuestion = null;
 
     function selectDivision(division) {
       const eventSelect = document.getElementById('eventSelect');
@@ -188,12 +189,13 @@
       });
       eventsSection.classList.add('active');
       updateSkills();
-      main.innerHTML = `<h1>Division ${division} - Question Page</h1><p>Select an event, skill, and year on the left, then load a question.</p>`;
+      main.innerHTML = `<h1>Division ${division} - Question Page</h1><p>Select an event, skill, and year on the left, then click Next Question.</p>`;
 
       fetch('questions.json')
         .then(res => res.json())
         .then(data => {
           allQuestions = data;
+          loadQuestion();  // Load first question automatically after fetching
         });
     }
 
@@ -210,54 +212,52 @@
       });
     }
 
-function loadQuestion() {
-  const event = document.getElementById('eventSelect').value;
-  const skill = document.getElementById('skillSelect').value;
-  const year = parseInt(document.getElementById('yearSelect').value);
-  const main = document.getElementById('mainContent');
-
-  const matches = allQuestions.filter(q =>
-    q.event === event &&
-    q.skill === skill &&
-    (q.year === year || q.year === "all")
-  );
-
-  if (matches.length === 0) {
-    main.innerHTML = `<h1>${event}</h1><p>No questions found for selected filters.</p>`;
-    return;
-  }
-
-  // rest remains same
-  const q = matches[Math.floor(Math.random() * matches.length)];
-
-  let formHTML = '';
-  if (q.type === 'MC' && Array.isArray(q.choices)) {
-    formHTML += `<form onsubmit="checkAnswer(event, '${q.answer}')">`;
-    q.choices.forEach((choice) => {
-      formHTML += `<label><input type="radio" name="userAnswer" value="${choice}" required> ${choice}</label><br/>`;
+    document.getElementById('nextQuestionBtn').addEventListener('click', loadQuestion);
+    document.getElementById('eventSelect').addEventListener('change', () => {
+      updateSkills();
+      loadQuestion();
     });
-    formHTML += `<button class="submit" type="submit">Submit</button></form>`;
-  } else {
-    formHTML = `
-      <form onsubmit="checkAnswer(event, '${q.answer}')">
-        <input type="text" id="userAnswer" placeholder="Type your answer here..." required />
-        <button class="submit" type="submit">Submit</button>
-      </form>
-    `;
-  }
+    document.getElementById('skillSelect').addEventListener('change', loadQuestion);
+    document.getElementById('yearSelect').addEventListener('change', loadQuestion);
 
-  main.innerHTML = `
-    <h1>${event} - ${skill} (${year})</h1>
-    <p>${q.question}</p>
-    ${formHTML}
-    <div id="feedback" class="feedback"></div>
-  `;
-}
+    function loadQuestion() {
+      const event = document.getElementById('eventSelect').value;
+      const skill = document.getElementById('skillSelect').value;
+      const year = parseInt(document.getElementById('yearSelect').value);
+      const main = document.getElementById('mainContent');
 
+      const matches = allQuestions.filter(q =>
+        q.event === event &&
+        q.skill === skill &&
+        (q.year === year || q.year === "all")
+      );
+
+      if (matches.length === 0) {
+        main.innerHTML = `<h1>${event}</h1><p>No questions found for selected filters.</p>`;
+        return;
+      }
+
+      currentQuestion = matches[Math.floor(Math.random() * matches.length)];
+
+      let formHTML = '';
+      if (currentQuestion.type === 'MC' && Array.isArray(currentQuestion.choices)) {
+        formHTML += `<form onsubmit="checkAnswer(event, '${currentQuestion.answer}')">`;
+        currentQuestion.choices.forEach((choice) => {
+          formHTML += `<label><input type="radio" name="userAnswer" value="${choice}" required> ${choice}</label><br/>`;
+        });
+        formHTML += `<button class="submit" type="submit">Submit</button></form>`;
+      } else {
+        formHTML = `
+          <form onsubmit="checkAnswer(event, '${currentQuestion.answer}')">
+            <input type="text" id="userAnswer" placeholder="Type your answer here..." required />
+            <button class="submit" type="submit">Submit</button>
+          </form>
+        `;
+      }
 
       main.innerHTML = `
         <h1>${event} - ${skill} (${year})</h1>
-        <p>${q.question}</p>
+        <p>${currentQuestion.question}</p>
         ${formHTML}
         <div id="feedback" class="feedback"></div>
       `;
@@ -286,6 +286,7 @@ function loadQuestion() {
   </script>
 </body>
 </html>
+
 
 
 
