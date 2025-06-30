@@ -8,4 +8,185 @@
     "choices": ["Feeding", "Protection", "Hearing", "Breathing"],
     "answer": "Protection"
   }
+  {
+    "type": "MC",
+    "event": "Entomology",
+    "skill": "Multiple Choice",
+    "year": 2025,
+    "question": "Which order do butterflies belong to?",
+    "choices": ["Coleoptera", "Diptera", "Lepidoptera", "Hemiptera"],
+    "answer": "Lepidoptera"
+  },
+  {
+    "type": "MC",
+    "event": "Entomology",
+    "skill": "Multiple Choice",
+    "year": 2025,
+    "question": "What type of metamorphosis do beetles undergo?",
+    "choices": ["Incomplete", "Gradual", "Complete", "Partial"],
+    "answer": "Complete"
+  },
+  {
+    "type": "MC",
+    "event": "Entomology",
+    "skill": "Multiple Choice",
+    "year": 2025,
+    "question": "The compound eyes of insects are composed of units called:",
+    "choices": ["Ommatidia", "Chorion", "Spiracles", "Mandibles"],
+    "answer": "Ommatidia"
+  },
+  {
+    "type": "MC",
+    "event": "Entomology",
+    "skill": "Multiple Choice",
+    "year": 2025,
+    "question": "Which structure is primarily responsible for gas exchange in insects?",
+    "choices": ["Antennae", "Trachea", "Malpighian tubules", "Crop"],
+    "answer": "Trachea"
+  },
+  {
+    "type": "MC",
+    "event": "Entomology",
+    "skill": "Multiple Choice",
+    "year": 2025,
+    "question": "Which insect order includes true bugs?",
+    "choices": ["Orthoptera", "Hemiptera", "Diptera", "Thysanura"],
+    "answer": "Hemiptera"
+  },
+  {
+    "type": "MC",
+    "event": "Entomology",
+    "skill": "Multiple Choice",
+    "year": 2025,
+    "question": "What is the primary function of halteres in flies?",
+    "choices": ["Feeding", "Balance", "Mating", "Hearing"],
+    "answer": "Balance"
+  },
+  {
+    "type": "MC",
+    "event": "Entomology",
+    "skill": "Multiple Choice",
+    "year": 2025,
+    "question": "What is the hardened forewing of beetles called?",
+    "choices": ["Elytra", "Tegmina", "Haltere", "Furcula"],
+    "answer": "Elytra"
+  },
+  {
+    "type": "MC",
+    "event": "Entomology",
+    "skill": "Multiple Choice",
+    "year": 2025,
+    "question": "Which of these insects is NOT holometabolous?",
+    "choices": ["Beetle", "Butterfly", "Grasshopper", "Fly"],
+    "answer": "Grasshopper"
+  },
+  {
+    "type": "MC",
+    "event": "Entomology",
+    "skill": "Multiple Choice",
+    "year": 2025,
+    "question": "Which insect family includes fireflies?",
+    "choices": ["Curculionidae", "Coccinellidae", "Lampyridae", "Formicidae"],
+    "answer": "Lampyridae"
+  },
+  {
+    "type": "MC",
+    "event": "Entomology",
+    "skill": "Multiple Choice",
+    "year": 2025,
+    "question": "Which of these insects uses stridulation to produce sound?",
+    "choices": ["Ants", "Grasshoppers", "Mosquitoes", "Butterflies"],
+    "answer": "Grasshoppers"
+  },
+
+  {
+    "type": "MC",
+    "event": "Entomology",
+    "skill": "Multiple Choice",
+    "year": 2025,
+    "question": "Which part of the insect digestive system absorbs nutrients?",
+    "choices": ["Foregut", "Hindgut", "Midgut", "Crop"],
+    "answer": "Midgut"
+  },
+  {
+    "type": "MC",
+    "event": "Entomology",
+    "skill": "Multiple Choice",
+    "year": 2025,
+    "question": "Insect antennae are primarily used for:",
+    "choices": ["Hearing", "Mating", "Navigation", "Sensing environment"],
+    "answer": "Sensing environment"
+  },
+  {
+    "type": "MC",
+    "event": "Entomology",
+    "skill": "Multiple Choice",
+    "year": 2025,
+    "question": "Which family do honeybees belong to?",
+    "choices": ["Apidae", "Formicidae", "Vespidae", "Ichneumonidae"],
+    "answer": "Apidae"
+  },
+  {
+    "type": "MC",
+    "event": "Entomology",
+    "skill": "Multiple Choice",
+    "year": 2025,
+    "question": "What is the function of Malpighian tubules in insects?",
+    "choices": ["Hearing", "Excretion", "Digestion", "Respiration"],
+    "answer": "Excretion"
+  },
+  {
+    "type": "MC",
+    "event": "Entomology",
+    "skill": "Multiple Choice",
+    "year": 2025,
+    "question": "The suffix '-ptera' in insect orders refers to:",
+    "choices": ["Mouthparts", "Wings", "Legs", "Antennae"],
+    "answer": "Wings"
+  },
+  {
+    "type": "MC",
+    "event": "Entomology",
+    "skill": "Multiple Choice",
+    "year": 2025,
+    "question": "Which of the following has aquatic nymphs?",
+    "choices": ["Coleoptera", "Ephemeroptera", "Orthoptera", "Hymenoptera"],
+    "answer": "Ephemeroptera"
+  },
+  {
+    "type": "MC",
+    "event": "Entomology",
+    "skill": "Multiple Choice",
+    "year": 2025,
+    "question": "Which part of an insect's leg is closest to the body?",
+    "choices": ["Tarsus", "Tibia", "Femur", "Coxa"],
+    "answer": "Coxa"
+  },
+  {
+    "type": "MC",
+    "event": "Entomology",
+    "skill": "Multiple Choice",
+    "year": 2025,
+    "question": "Which structure controls the flow of air in insect respiration?",
+    "choices": ["Trachea", "Malpighian tubules", "Spiracles", "Antennae"],
+    "answer": "Spiracles"
+  },
+  {
+    "type": "MC",
+    "event": "Entomology",
+    "skill": "Multiple Choice",
+    "year": 2025,
+    "question": "What is the main protein in insect cuticle?",
+    "choices": ["Keratin", "Collagen", "Chitin", "Myosin"],
+    "answer": "Chitin"
+  },
+  {
+    "type": "MC",
+    "event": "Entomology",
+    "skill": "Multiple Choice",
+    "year": 2025,
+    "question": "The main function of the insect crop is to:",
+    "choices": ["Absorb nutrients", "Excrete waste", "Store food", "Produce enzymes"],
+    "answer": "Store food"
+  }
 ]
