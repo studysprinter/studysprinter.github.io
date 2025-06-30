@@ -102,7 +102,7 @@
       line-height: 1.6;
       color: #ccc;
     }
-    .main input[type="text"] {
+    .main input[type="text"], .main .choice {
       padding: 10px;
       font-size: 1rem;
       width: 100%;
@@ -110,6 +110,8 @@
       margin-bottom: 10px;
       border-radius: 4px;
       border: none;
+      background-color: #2a2a2a;
+      color: #eee;
     }
     .main button.submit {
       padding: 10px 15px;
@@ -221,20 +223,35 @@
       }
 
       const q = matches[Math.floor(Math.random() * matches.length)];
+
+      let formHTML = '';
+      if (q.type === 'MC' && Array.isArray(q.choices)) {
+        formHTML += `<form onsubmit="checkAnswer(event, '${q.answer}')">`;
+        q.choices.forEach((choice, index) => {
+          formHTML += `<label><input type="radio" name="userAnswer" value="${choice}" required> ${choice}</label><br/>`;
+        });
+        formHTML += `<button class="submit" type="submit">Submit</button></form>`;
+      } else {
+        formHTML = `
+          <form onsubmit="checkAnswer(event, '${q.answer}')">
+            <input type="text" id="userAnswer" placeholder="Type your answer here..." required />
+            <button class="submit" type="submit">Submit</button>
+          </form>
+        `;
+      }
+
       main.innerHTML = `
         <h1>${event} - ${skill} (${year})</h1>
         <p>${q.question}</p>
-        <form onsubmit="checkAnswer(event, '${q.answer}')">
-          <input type="text" id="userAnswer" placeholder="Type your answer here..." required />
-          <button class="submit" type="submit">Submit</button>
-        </form>
+        ${formHTML}
         <div id="feedback" class="feedback"></div>
       `;
     }
 
     function checkAnswer(event, correctAnswer) {
       event.preventDefault();
-      const userAnswer = document.getElementById('userAnswer').value.trim().toLowerCase();
+      const input = document.querySelector('input[name="userAnswer"]:checked') || document.getElementById('userAnswer');
+      const userAnswer = input ? input.value.trim().toLowerCase() : '';
       const correct = correctAnswer.trim().toLowerCase();
       const feedback = document.getElementById('feedback');
 
@@ -254,6 +271,7 @@
   </script>
 </body>
 </html>
+
 
 
 
