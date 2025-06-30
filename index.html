@@ -6,6 +6,7 @@
   <title>Science Olympiad Prep</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet" />
   <style>
+    /* ... same CSS as before ... */
     * {
       box-sizing: border-box;
     }
@@ -161,131 +162,134 @@
   </div>
 
   <script>
-    const events = {
-      B: ['Entomology', 'Disease Detectives', 'Anatomy and Physiology'],
-      C: []
-    };
+    document.addEventListener('DOMContentLoaded', () => {
+      const events = {
+        B: ['Entomology', 'Disease Detectives', 'Anatomy and Physiology'],
+        C: []
+      };
 
-    const skills = {
-      'Entomology': ['Identification', 'Multiple Choice', 'Everything Else'],
-      'Disease Detectives': ['Math', 'Vocab', 'Full Case Studies', 'Everything Else'],
-      'Anatomy and Physiology': ['Diagrams', 'Multiple Choice', 'Everything Else']
-    };
+      const skills = {
+        'Entomology': ['Identification', 'Multiple Choice', 'Everything Else'],
+        'Disease Detectives': ['Math', 'Vocab', 'Full Case Studies', 'Everything Else'],
+        'Anatomy and Physiology': ['Diagrams', 'Multiple Choice', 'Everything Else']
+      };
 
-    let allQuestions = [];
-    let currentQuestion = null;
+      let allQuestions = [];
+      let currentQuestion = null;
 
-    function selectDivision(division) {
-      const eventSelect = document.getElementById('eventSelect');
-      const main = document.getElementById('mainContent');
-      const eventsSection = document.getElementById('eventsSection');
+      window.selectDivision = function(division) {
+        const eventSelect = document.getElementById('eventSelect');
+        const main = document.getElementById('mainContent');
+        const eventsSection = document.getElementById('eventsSection');
 
-      eventSelect.innerHTML = '';
-      events[division].forEach(event => {
-        const opt = document.createElement('option');
-        opt.value = event;
-        opt.textContent = event;
-        eventSelect.appendChild(opt);
-      });
-      eventsSection.classList.add('active');
-      updateSkills();
-      main.innerHTML = `<h1>Division ${division} - Question Page</h1><p>Select an event, skill, and year on the left, then click Next Question.</p>`;
-
-      fetch('questions.json')
-        .then(res => res.json())
-        .then(data => {
-          allQuestions = data;
-          loadQuestion();  // Load first question automatically after fetching
+        eventSelect.innerHTML = '';
+        events[division].forEach(event => {
+          const opt = document.createElement('option');
+          opt.value = event;
+          opt.textContent = event;
+          eventSelect.appendChild(opt);
         });
-    }
+        eventsSection.classList.add('active');
+        updateSkills();
+        main.innerHTML = `<h1>Division ${division} - Question Page</h1><p>Select an event, skill, and year on the left, then click Next Question.</p>`;
 
-    function updateSkills() {
-      const event = document.getElementById('eventSelect').value;
-      const skillSelect = document.getElementById('skillSelect');
+        fetch('questions.json')
+          .then(res => res.json())
+          .then(data => {
+            allQuestions = data;
+            loadQuestion();  // Load first question automatically after fetching
+          });
+      };
 
-      skillSelect.innerHTML = '';
-      (skills[event] || []).forEach(skill => {
-        const opt = document.createElement('option');
-        opt.value = skill;
-        opt.textContent = skill;
-        skillSelect.appendChild(opt);
-      });
-    }
+      window.updateSkills = function() {
+        const event = document.getElementById('eventSelect').value;
+        const skillSelect = document.getElementById('skillSelect');
 
-    document.getElementById('nextQuestionBtn').addEventListener('click', loadQuestion);
-    document.getElementById('eventSelect').addEventListener('change', () => {
-      updateSkills();
-      loadQuestion();
-    });
-    document.getElementById('skillSelect').addEventListener('change', loadQuestion);
-    document.getElementById('yearSelect').addEventListener('change', loadQuestion);
-
-    function loadQuestion() {
-      const event = document.getElementById('eventSelect').value;
-      const skill = document.getElementById('skillSelect').value;
-      const year = parseInt(document.getElementById('yearSelect').value);
-      const main = document.getElementById('mainContent');
-
-      const matches = allQuestions.filter(q =>
-        q.event === event &&
-        q.skill === skill &&
-        (q.year === year || q.year === "all")
-      );
-
-      if (matches.length === 0) {
-        main.innerHTML = `<h1>${event}</h1><p>No questions found for selected filters.</p>`;
-        return;
-      }
-
-      currentQuestion = matches[Math.floor(Math.random() * matches.length)];
-
-      let formHTML = '';
-      if (currentQuestion.type === 'MC' && Array.isArray(currentQuestion.choices)) {
-        formHTML += `<form onsubmit="checkAnswer(event, '${currentQuestion.answer}')">`;
-        currentQuestion.choices.forEach((choice) => {
-          formHTML += `<label><input type="radio" name="userAnswer" value="${choice}" required> ${choice}</label><br/>`;
+        skillSelect.innerHTML = '';
+        (skills[event] || []).forEach(skill => {
+          const opt = document.createElement('option');
+          opt.value = skill;
+          opt.textContent = skill;
+          skillSelect.appendChild(opt);
         });
-        formHTML += `<button class="submit" type="submit">Submit</button></form>`;
-      } else {
-        formHTML = `
-          <form onsubmit="checkAnswer(event, '${currentQuestion.answer}')">
-            <input type="text" id="userAnswer" placeholder="Type your answer here..." required />
-            <button class="submit" type="submit">Submit</button>
-          </form>
+      };
+
+      document.getElementById('nextQuestionBtn').addEventListener('click', loadQuestion);
+      document.getElementById('eventSelect').addEventListener('change', () => {
+        updateSkills();
+        loadQuestion();
+      });
+      document.getElementById('skillSelect').addEventListener('change', loadQuestion);
+      document.getElementById('yearSelect').addEventListener('change', loadQuestion);
+
+      window.loadQuestion = function() {
+        const event = document.getElementById('eventSelect').value;
+        const skill = document.getElementById('skillSelect').value;
+        const year = parseInt(document.getElementById('yearSelect').value);
+        const main = document.getElementById('mainContent');
+
+        const matches = allQuestions.filter(q =>
+          q.event === event &&
+          q.skill === skill &&
+          (q.year === year || q.year === "all")
+        );
+
+        if (matches.length === 0) {
+          main.innerHTML = `<h1>${event}</h1><p>No questions found for selected filters.</p>`;
+          return;
+        }
+
+        currentQuestion = matches[Math.floor(Math.random() * matches.length)];
+
+        let formHTML = '';
+        if (currentQuestion.type === 'MC' && Array.isArray(currentQuestion.choices)) {
+          formHTML += `<form onsubmit="checkAnswer(event, '${currentQuestion.answer}')">`;
+          currentQuestion.choices.forEach((choice) => {
+            formHTML += `<label><input type="radio" name="userAnswer" value="${choice}" required> ${choice}</label><br/>`;
+          });
+          formHTML += `<button class="submit" type="submit">Submit</button></form>`;
+        } else {
+          formHTML = `
+            <form onsubmit="checkAnswer(event, '${currentQuestion.answer}')">
+              <input type="text" id="userAnswer" placeholder="Type your answer here..." required />
+              <button class="submit" type="submit">Submit</button>
+            </form>
+          `;
+        }
+
+        main.innerHTML = `
+          <h1>${event} - ${skill} (${year})</h1>
+          <p>${currentQuestion.question}</p>
+          ${formHTML}
+          <div id="feedback" class="feedback"></div>
         `;
-      }
+      };
 
-      main.innerHTML = `
-        <h1>${event} - ${skill} (${year})</h1>
-        <p>${currentQuestion.question}</p>
-        ${formHTML}
-        <div id="feedback" class="feedback"></div>
-      `;
-    }
+      window.checkAnswer = function(event, correctAnswer) {
+        event.preventDefault();
+        const input = document.querySelector('input[name="userAnswer"]:checked') || document.getElementById('userAnswer');
+        const userAnswer = input ? input.value.trim().toLowerCase() : '';
+        const correct = correctAnswer.trim().toLowerCase();
+        const feedback = document.getElementById('feedback');
 
-    function checkAnswer(event, correctAnswer) {
-      event.preventDefault();
-      const input = document.querySelector('input[name="userAnswer"]:checked') || document.getElementById('userAnswer');
-      const userAnswer = input ? input.value.trim().toLowerCase() : '';
-      const correct = correctAnswer.trim().toLowerCase();
-      const feedback = document.getElementById('feedback');
+        if (userAnswer === correct) {
+          feedback.innerHTML = '<span style="color: #4caf50">✅ Correct!</span>';
+        } else {
+          feedback.innerHTML = `<span style="color: #f44336">❌ Incorrect.</span> Correct answer: <strong>${correctAnswer}</strong>`;
+        }
+      };
 
-      if (userAnswer === correct) {
-        feedback.innerHTML = '<span style="color: #4caf50">✅ Correct!</span>';
-      } else {
-        feedback.innerHTML = `<span style="color: #f44336">❌ Incorrect.</span> Correct answer: <strong>${correctAnswer}</strong>`;
-      }
-    }
-
-    function goBack() {
-      document.getElementById('eventsSection').classList.remove('active');
-      document.getElementById('mainContent').innerHTML = `
-        <h1>Welcome to Science Olympiad Prep</h1>
-        <p>Select a division to begin answering questions.</p>`;
-    }
+      window.goBack = function() {
+        document.getElementById('eventsSection').classList.remove('active');
+        document.getElementById('mainContent').innerHTML = `
+          <h1>Welcome to Science Olympiad Prep</h1>
+          <p>Select a division to begin answering questions.</p>`;
+      };
+    });
   </script>
 </body>
 </html>
+
 
 
 
