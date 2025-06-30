@@ -210,35 +210,50 @@
       });
     }
 
-    function loadQuestion() {
-      const event = document.getElementById('eventSelect').value;
-      const skill = document.getElementById('skillSelect').value;
-      const year = parseInt(document.getElementById('yearSelect').value);
-      const main = document.getElementById('mainContent');
+function loadQuestion() {
+  const event = document.getElementById('eventSelect').value;
+  const skill = document.getElementById('skillSelect').value;
+  const year = parseInt(document.getElementById('yearSelect').value);
+  const main = document.getElementById('mainContent');
 
-      const matches = allQuestions.filter(q => q.event === event && q.skill === skill && q.year === year);
-      if (matches.length === 0) {
-        main.innerHTML = `<h1>${event}</h1><p>No questions found for selected filters.</p>`;
-        return;
-      }
+  const matches = allQuestions.filter(q =>
+    q.event === event &&
+    q.skill === skill &&
+    (q.year === year || q.year === "all")
+  );
 
-      const q = matches[Math.floor(Math.random() * matches.length)];
+  if (matches.length === 0) {
+    main.innerHTML = `<h1>${event}</h1><p>No questions found for selected filters.</p>`;
+    return;
+  }
 
-      let formHTML = '';
-      if (q.type === 'MC' && Array.isArray(q.choices)) {
-        formHTML += `<form onsubmit="checkAnswer(event, '${q.answer}')">`;
-        q.choices.forEach((choice, index) => {
-          formHTML += `<label><input type="radio" name="userAnswer" value="${choice}" required> ${choice}</label><br/>`;
-        });
-        formHTML += `<button class="submit" type="submit">Submit</button></form>`;
-      } else {
-        formHTML = `
-          <form onsubmit="checkAnswer(event, '${q.answer}')">
-            <input type="text" id="userAnswer" placeholder="Type your answer here..." required />
-            <button class="submit" type="submit">Submit</button>
-          </form>
-        `;
-      }
+  // rest remains same
+  const q = matches[Math.floor(Math.random() * matches.length)];
+
+  let formHTML = '';
+  if (q.type === 'MC' && Array.isArray(q.choices)) {
+    formHTML += `<form onsubmit="checkAnswer(event, '${q.answer}')">`;
+    q.choices.forEach((choice) => {
+      formHTML += `<label><input type="radio" name="userAnswer" value="${choice}" required> ${choice}</label><br/>`;
+    });
+    formHTML += `<button class="submit" type="submit">Submit</button></form>`;
+  } else {
+    formHTML = `
+      <form onsubmit="checkAnswer(event, '${q.answer}')">
+        <input type="text" id="userAnswer" placeholder="Type your answer here..." required />
+        <button class="submit" type="submit">Submit</button>
+      </form>
+    `;
+  }
+
+  main.innerHTML = `
+    <h1>${event} - ${skill} (${year})</h1>
+    <p>${q.question}</p>
+    ${formHTML}
+    <div id="feedback" class="feedback"></div>
+  `;
+}
+
 
       main.innerHTML = `
         <h1>${event} - ${skill} (${year})</h1>
