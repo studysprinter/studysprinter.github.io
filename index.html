@@ -3,198 +3,315 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Science Olympiad Prep</title>
+  <title>Productivity Hub</title>
   <style>
-    body {font-family: Arial, sans-serif; background: #121212; color: #e0e0e0; margin:0; display:flex; height:100vh;}
-    .sidebar {background: #1e1e1e; padding:20px; width:280px; display:flex; flex-direction:column;}
-    .sidebar button, select {margin-bottom:15px; padding:10px; border:none; border-radius:5px; font-size:1rem; cursor:pointer; background-color:#4caf50; color:black; font-weight:bold; user-select:none;}
-    .sidebar button:hover, select:hover {background-color:#43a047;}
-    .sidebar label {margin-bottom:6px; font-weight:600; user-select:none;}
-    .main {flex-grow:1; padding:30px; overflow-y:auto;}
-    h1 {color:#4caf50; margin-bottom:15px;}
-    form label {display:block; margin:8px 0 4px; user-select:none;}
-    form button {margin-top:10px; padding:10px 15px; border:none; border-radius:5px; background-color:#4caf50; color:black; font-weight:bold; cursor:pointer; user-select:none;}
-    #feedback {margin-top:15px; font-weight:bold; user-select:none;}
+    /* Reset & base */
+    * {
+      box-sizing: border-box;
+    }
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #121212;
+      color: #e0e0e0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-height: 100vh;
+      padding: 30px 20px;
+    }
+    h1 {
+      margin-bottom: 10px;
+      font-weight: 700;
+      color: #4caf50;
+      letter-spacing: 1.5px;
+    }
+
+    /* Container */
+    .container {
+      max-width: 600px;
+      width: 100%;
+      background-color: #1e1e1e;
+      border-radius: 12px;
+      padding: 25px 30px;
+      box-shadow: 0 0 20px rgba(76, 175, 80, 0.5);
+      display: flex;
+      flex-direction: column;
+      gap: 30px;
+    }
+
+    /* To-Do Section */
+    #todo-section h2 {
+      margin-bottom: 12px;
+      font-weight: 600;
+      color: #81c784;
+    }
+    #new-task-form {
+      display: flex;
+      gap: 12px;
+      margin-bottom: 15px;
+    }
+    #new-task-input {
+      flex-grow: 1;
+      padding: 10px 14px;
+      border-radius: 6px;
+      border: none;
+      font-size: 1rem;
+      background-color: #2a2a2a;
+      color: #e0e0e0;
+    }
+    #new-task-input::placeholder {
+      color: #aaa;
+    }
+    #add-task-btn {
+      background-color: #4caf50;
+      border: none;
+      color: black;
+      font-weight: 700;
+      padding: 0 16px;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background-color 0.25s ease;
+    }
+    #add-task-btn:hover {
+      background-color: #43a047;
+    }
+    ul#task-list {
+      list-style: none;
+      padding-left: 0;
+      max-height: 260px;
+      overflow-y: auto;
+    }
+    ul#task-list li {
+      background-color: #2a2a2a;
+      padding: 12px 15px;
+      margin-bottom: 10px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      user-select: none;
+      font-size: 1rem;
+    }
+    ul#task-list li.completed {
+      text-decoration: line-through;
+      color: #757575;
+    }
+    ul#task-list li button.delete-btn {
+      background: transparent;
+      border: none;
+      color: #f44336;
+      font-weight: 700;
+      font-size: 1.1rem;
+      cursor: pointer;
+      user-select: none;
+    }
+    ul#task-list li button.delete-btn:hover {
+      color: #d32f2f;
+    }
+    ul#task-list li label {
+      flex-grow: 1;
+      cursor: pointer;
+    }
+    ul#task-list li input[type="checkbox"] {
+      margin-right: 15px;
+      cursor: pointer;
+      width: 18px;
+      height: 18px;
+    }
+
+    /* Timer Section */
+    #timer-section h2 {
+      margin-bottom: 12px;
+      font-weight: 600;
+      color: #81c784;
+    }
+    #timer-controls {
+      display: flex;
+      gap: 15px;
+      margin-bottom: 20px;
+      flex-wrap: wrap;
+    }
+    #timer-controls button {
+      flex-grow: 1;
+      padding: 12px 0;
+      font-weight: 700;
+      font-size: 1rem;
+      border-radius: 8px;
+      border: none;
+      cursor: pointer;
+      user-select: none;
+      background-color: #4caf50;
+      color: black;
+      transition: background-color 0.25s ease;
+    }
+    #timer-controls button.active, #timer-controls button:hover {
+      background-color: #43a047;
+    }
+
+    #timer-display {
+      font-size: 3.5rem;
+      font-weight: 700;
+      text-align: center;
+      letter-spacing: 5px;
+      user-select: none;
+      margin-bottom: 10px;
+    }
+    #timer-label {
+      font-size: 1.1rem;
+      text-align: center;
+      color: #a5d6a7;
+      user-select: none;
+      margin-bottom: 20px;
+    }
+    #timer-buttons {
+      display: flex;
+      justify-content: center;
+      gap: 25px;
+    }
+    #timer-buttons button {
+      padding: 10px 22px;
+      font-weight: 700;
+      font-size: 1rem;
+      border-radius: 8px;
+      border: none;
+      cursor: pointer;
+      user-select: none;
+      background-color: #4caf50;
+      color: black;
+      transition: background-color 0.25s ease;
+    }
+    #timer-buttons button:hover {
+      background-color: #43a047;
+    }
+
+    /* Scrollbar */
+    ::-webkit-scrollbar {
+      width: 8px;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #4caf50;
+      border-radius: 10px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #1e1e1e;
+    }
+
+    /* Responsive */
+    @media (max-width: 640px) {
+      .container {
+        padding: 20px 15px;
+      }
+      #timer-display {
+        font-size: 2.8rem;
+      }
+    }
   </style>
 </head>
 <body>
-  <div class="sidebar">
-    <h2>Choose Division</h2>
-    <button onclick="selectDivision('B')">Science Olympiad Division B</button>
-    <button onclick="selectDivision('C')">Science Olympiad Division C</button>
-    <button onclick="goBack()">⬅ Back</button>
 
-    <div id="eventsSection" style="display:none;">
-      <label for="eventSelect">Choose Event</label>
-      <select id="eventSelect" onchange="updateSkills()"></select>
+  <h1>Productivity Hub</h1>
+  <div class="container">
 
-      <label for="skillSelect">Choose Skill</label>
-      <select id="skillSelect" onchange="skillChanged()"></select>
+    <!-- To-Do List Section -->
+    <section id="todo-section">
+      <h2>To-Do List</h2>
+      <form id="new-task-form">
+        <input type="text" id="new-task-input" placeholder="Add a new task..." autocomplete="off" required />
+        <button type="submit" id="add-task-btn">Add</button>
+      </form>
+      <ul id="task-list"></ul>
+    </section>
 
-      <label for="yearSelect">Choose Year</label>
-      <select id="yearSelect">
-        <option>2025-2026</option>
-        <option>2024-2025</option>
-        <option>2023-2024</option>
-        <option>2022-2023</option>
-        <option>2021-2022</option>
-      </select>
+    <!-- Timer Section -->
+    <section id="timer-section">
+      <h2>Timer</h2>
+      <div id="timer-controls">
+        <button id="pomodoro-btn" class="active" title="25 min work + 5 min break">Pomodoro</button>
+        <button id="ultradian-btn" title="90 min work + 20 min break">Ultradian</button>
+      </div>
+      <div id="timer-label">Work Session</div>
+      <div id="timer-display">25:00</div>
+      <div id="timer-buttons">
+        <button id="start-pause-btn">Start</button>
+        <button id="reset-btn">Reset</button>
+      </div>
+    </section>
 
-      <button onclick="nextQuestion()">Next Question</button>
-    </div>
-  </div>
-
-  <div class="main" id="mainContent">
-    <h1>Welcome to Science Olympiad Prep</h1>
-    <p>Select a division to begin answering questions.</p>
   </div>
 
 <script>
-  const events = {
-    B: ['Entomology', 'Disease Detectives', 'Anatomy and Physiology'],
-    C: []
-  };
+  // ----- To-Do List -----
+  const taskForm = document.getElementById('new-task-form');
+  const taskInput = document.getElementById('new-task-input');
+  const taskList = document.getElementById('task-list');
 
-  const skills = {
-    'Entomology': ['Identification','Multiple Choice','Everything Else'],
-    'Disease Detectives': ['Math','Vocab','Full Case Studies','Multiple Choice','Everything Else'],
-    'Anatomy and Physiology': ['Diagrams','Multiple Choice','Everything Else']
-  };
+  // Load tasks from localStorage
+  let tasks = JSON.parse(localStorage.getItem('tasks')) || [];
 
-  let allQuestions = [];
-  let questionsLoaded = false;
-  let currentDivision = null;
-  let currentDifficulty = 1;
-  const maxDifficulty = 3;
-  let lastQuestion = null;
+  function renderTasks() {
+    taskList.innerHTML = '';
+    tasks.forEach((task, idx) => {
+      const li = document.createElement('li');
+      li.className = task.completed ? 'completed' : '';
+      li.innerHTML = `
+        <label>
+          <input type="checkbox" ${task.completed ? 'checked' : ''} data-index="${idx}" />
+          ${task.text}
+        </label>
+        <button class="delete-btn" data-index="${idx}" aria-label="Delete task">&times;</button>
+      `;
+      taskList.appendChild(li);
+    });
+  }
 
-  window.onload = async () => {
-    try {
-      const res = await fetch('./questions.json');
-      allQuestions = await res.json();
-      questionsLoaded = true;
-    } catch (e) {
-      console.error('Failed to load questions.json', e);
-      document.getElementById('mainContent').innerHTML = '<p style="color:red">Error loading questions. Ensure questions.json is deployed alongside index.html.</p>';
+  // Update tasks in localStorage
+  function updateTasks() {
+    localStorage.setItem('tasks', JSON.stringify(tasks));
+  }
+
+  taskList.addEventListener('change', e => {
+    if (e.target.matches('input[type="checkbox"]')) {
+      const idx = e.target.dataset.index;
+      tasks[idx].completed = e.target.checked;
+      updateTasks();
+      renderTasks();
     }
-  };
+  });
 
-  function selectDivision(div) {
-    currentDivision = div;
-    const eventSelect = document.getElementById('eventSelect');
-    eventSelect.innerHTML = '';
-    events[div].forEach(ev => {
-      const opt = document.createElement('option'); opt.value = ev; opt.textContent = ev; eventSelect.appendChild(opt);
-    });
-    updateSkills();
-    document.getElementById('eventsSection').style.display = 'block';
-    document.getElementById('mainContent').innerHTML = `<h1>Division ${div} - Question Page</h1><p>Select an event, skill (must be Multiple Choice), and year on the left, then click Next Question.</p>`;
-    currentDifficulty = 1;
-    lastQuestion = null;
-  }
-
-  function updateSkills() {
-    const event = document.getElementById('eventSelect').value;
-    const skillSelect = document.getElementById('skillSelect');
-    skillSelect.innerHTML = '';
-    (skills[event]||[]).forEach(skill => {
-      const opt = document.createElement('option'); opt.value = skill; opt.textContent = skill; skillSelect.appendChild(opt);
-    });
-    skillChanged();
-  }
-
-  function skillChanged() {
-    const skill = document.getElementById('skillSelect').value;
-    if(skill==='Multiple Choice') {
-      document.getElementById('mainContent').innerHTML = '<h1>Ready for Multiple Choice Questions</h1><p>Click Next Question to start.</p>';
-    } else {
-      document.getElementById('mainContent').innerHTML = '<h1>No questions available</h1><p>Please select "Multiple Choice" skill to get questions.</p>';
+  taskList.addEventListener('click', e => {
+    if (e.target.matches('.delete-btn')) {
+      const idx = e.target.dataset.index;
+      tasks.splice(idx, 1);
+      updateTasks();
+      renderTasks();
     }
-  }
+  });
 
-  function filterQuestions(event, skill, difficulty, selectedYear) {
-    return allQuestions.filter(q => {
-      if (q.event !== event) return false;
-      if (q.skill !== skill) return false;
-      if (q.difficulty !== difficulty) return false;
+  taskForm.addEventListener('submit', e => {
+    e.preventDefault();
+    const text = taskInput.value.trim();
+    if (text === '') return;
+    tasks.push({ text, completed: false });
+    updateTasks();
+    renderTasks();
+    taskInput.value = '';
+    taskInput.focus();
+  });
 
-      // If question year is "all", year doesn't matter
-      if (q.year === "all") return true;
+  renderTasks();
 
-      // For Anatomy and Physiology, year filter applies strictly
-      if (event === "Anatomy and Physiology") {
-        return q.year === selectedYear;
-      }
+  // ----- Timer -----
+  const pomodoroBtn = document.getElementById('pomodoro-btn');
+  const ultradianBtn = document.getElementById('ultradian-btn');
+  const timerLabel = document.getElementById('timer-label');
+  const timerDisplay = document.getElementById('timer-display');
+  const startPauseBtn = document.getElementById('start-pause-btn');
+  const resetBtn = document.getElementById('reset-btn');
 
-      // For other events (Entomology, Disease Detectives), ignore year filter
-      return true;
-    });
-  }
+  const MODES = {
+    pomodoro: { work: 25*60, break*
 
-  function nextQuestion() {
-    if(!questionsLoaded) { alert('Questions are still loading—please wait a moment.'); return; }
-    const event = document.getElementById('eventSelect').value;
-    const skill = document.getElementById('skillSelect').value;
-    const year = document.getElementById('yearSelect').value;
-
-    if(skill!=='Multiple Choice') {
-      alert("Please select 'Multiple Choice' skill to get questions.");
-      return;
-    }
-
-    let candidates = filterQuestions(event, skill, currentDifficulty, year);
-    if(candidates.length===0) {
-      // Try lower difficulties if no questions found at current difficulty
-      for(let d = currentDifficulty - 1; d >= 1; d--) {
-        candidates = filterQuestions(event, skill, d, year);
-        if(candidates.length > 0) {
-          currentDifficulty = d;
-          break;
-        }
-      }
-      if(candidates.length === 0) {
-        document.getElementById('mainContent').innerHTML = '<h1>No questions found.</h1>';
-        return;
-      }
-    }
-
-    let q;
-    do {
-      q = candidates[Math.floor(Math.random() * candidates.length)];
-    } while (q === lastQuestion && candidates.length > 1);
-    lastQuestion = q;
-
-    let html = `<form id="answerForm">`;
-    q.choices.forEach(choice => {
-      html += `<label><input type="radio" name="userAnswer" value="${choice}" required> ${choice}</label>`;
-    });
-    html += `<button type="submit">Submit</button></form><div id="feedback"></div>`;
-
-    document.getElementById('mainContent').innerHTML =
-      `<h1>${q.event} - ${q.skill} (Difficulty: ${q.difficulty})</h1><p>${q.question}</p>${html}`;
-
-    document.getElementById('answerForm').addEventListener('submit', e => {
-      e.preventDefault();
-      const selected = document.querySelector('input[name="userAnswer"]:checked').value;
-      const fb = document.getElementById('feedback');
-      if(selected.toLowerCase() === q.answer.toLowerCase()) {
-        fb.innerHTML = '<span style="color:#4caf50">✅ Correct!</span>';
-        if(currentDifficulty < maxDifficulty) currentDifficulty++;
-      } else {
-        fb.innerHTML = `<span style="color:#f44336">❌ Incorrect.</span> Correct answer: <strong>${q.answer}</strong>`;
-        if(currentDifficulty > 1) currentDifficulty--;
-      }
-    });
-  }
-
-  function goBack() {
-    document.getElementById('eventsSection').style.display = 'none';
-    document.getElementById('mainContent').innerHTML =
-      `<h1>Welcome to Science Olympiad Prep</h1><p>Select a division to begin answering questions.</p>`;
-  }
-</script>
-</body>
-</html>
 
 
 
