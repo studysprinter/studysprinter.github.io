@@ -1,76 +1,76 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Science Olympiad Prep</title>
-<style>
-  body {
-    font-family: Arial, sans-serif;
-    background: #121212;
-    color: #e0e0e0;
-    margin: 0;
-    display: flex;
-    height: 100vh;
-  }
-  .sidebar {
-    background: #1e1e1e;
-    padding: 20px;
-    width: 280px;
-    display: flex;
-    flex-direction: column;
-  }
-  .sidebar button, select {
-    margin-bottom: 15px;
-    padding: 10px;
-    border: none;
-    border-radius: 5px;
-    font-size: 1rem;
-    cursor: pointer;
-    background-color: #4caf50;
-    color: black;
-    font-weight: bold;
-    user-select: none;
-  }
-  .sidebar button:hover, select:hover {
-    background-color: #43a047;
-  }
-  .sidebar label {
-    margin-bottom: 6px;
-    font-weight: 600;
-    user-select: none;
-  }
-  .main {
-    flex-grow: 1;
-    padding: 30px;
-    overflow-y: auto;
-  }
-  h1 {
-    color: #4caf50;
-    margin-bottom: 15px;
-  }
-  form label {
-    display: block;
-    margin: 8px 0 4px;
-    user-select: none;
-  }
-  form button {
-    margin-top: 10px;
-    padding: 10px 15px;
-    border: none;
-    border-radius: 5px;
-    background-color: #4caf50;
-    color: black;
-    font-weight: bold;
-    cursor: pointer;
-    user-select: none;
-  }
-  #feedback {
-    margin-top: 15px;
-    font-weight: bold;
-    user-select: none;
-  }
-</style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Science Olympiad Prep</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #121212;
+      color: #e0e0e0;
+      margin: 0;
+      display: flex;
+      height: 100vh;
+    }
+    .sidebar {
+      background: #1e1e1e;
+      padding: 20px;
+      width: 280px;
+      display: flex;
+      flex-direction: column;
+    }
+    .sidebar button, select {
+      margin-bottom: 15px;
+      padding: 10px;
+      border: none;
+      border-radius: 5px;
+      font-size: 1rem;
+      cursor: pointer;
+      background-color: #4caf50;
+      color: black;
+      font-weight: bold;
+      user-select: none;
+    }
+    .sidebar button:hover, select:hover {
+      background-color: #43a047;
+    }
+    .sidebar label {
+      margin-bottom: 6px;
+      font-weight: 600;
+      user-select: none;
+    }
+    .main {
+      flex-grow: 1;
+      padding: 30px;
+      overflow-y: auto;
+    }
+    h1 {
+      color: #4caf50;
+      margin-bottom: 15px;
+    }
+    form label {
+      display: block;
+      margin: 8px 0 4px;
+      user-select: none;
+    }
+    form button {
+      margin-top: 10px;
+      padding: 10px 15px;
+      border: none;
+      border-radius: 5px;
+      background-color: #4caf50;
+      color: black;
+      font-weight: bold;
+      cursor: pointer;
+      user-select: none;
+    }
+    #feedback {
+      margin-top: 15px;
+      font-weight: bold;
+      user-select: none;
+    }
+  </style>
 </head>
 <body>
   <div class="sidebar">
@@ -117,23 +117,15 @@
     };
 
     let allQuestions = [];
+    let questionsLoaded = false;
     let currentDivision = null;
     let currentDifficulty = 1;
     const maxDifficulty = 3;
     let lastQuestion = null;
 
-    // Load questions from JSON
-    async function loadQuestions() {
-      try {
-        const res = await fetch('questions.json');
-        allQuestions = await res.json();
-      } catch(e) {
-        alert("Failed to load questions.json");
-      }
-    }
-
-    function selectDivision(div) {
+    async function selectDivision(div) {
       currentDivision = div;
+      // 1) Populate events dropdown
       const eventSelect = document.getElementById('eventSelect');
       eventSelect.innerHTML = '';
       events[div].forEach(ev => {
@@ -143,9 +135,23 @@
         eventSelect.appendChild(opt);
       });
       updateSkills();
+
+      // 2) Show the panel
       document.getElementById('eventsSection').style.display = 'block';
       document.getElementById('mainContent').innerHTML = `<h1>Division ${div} - Question Page</h1><p>Select an event, skill, and year on the left, then click Next Question.</p>`;
-      currentDifficulty = 1; 
+
+      // 3) Load questions.json now
+      questionsLoaded = false;
+      try {
+        const res = await fetch('./questions.json');
+        allQuestions = await res.json();
+        questionsLoaded = true;
+      } catch (e) {
+        console.error('Failed to load questions.json', e);
+        document.getElementById('mainContent').innerHTML = `<p style="color:red">Error loading questions. Check that <code>questions.json</code> is in the same folder.</p>`;
+      }
+      // reset difficulty
+      currentDifficulty = 1;
     }
 
     function updateSkills() {
@@ -179,8 +185,8 @@
     }
 
     function nextQuestion() {
-      if (allQuestions.length === 0) {
-        alert("Questions are still loading or failed to load.");
+      if (!questionsLoaded) {
+        alert('Questions are still loading—please wait a moment.');
         return;
       }
 
@@ -191,61 +197,57 @@
         return;
       }
 
-      let possibleQuestions = filterQuestions(event, skill, currentDifficulty);
-
-      if (possibleQuestions.length === 0) {
-        // Try lower difficulty if none found
+      // get candidates at current difficulty
+      let candidates = filterQuestions(event, skill, currentDifficulty);
+      // if none, step down difficulty
+      if (candidates.length === 0) {
         for (let diff = currentDifficulty - 1; diff >= 1; diff--) {
-          possibleQuestions = filterQuestions(event, skill, diff);
-          if (possibleQuestions.length > 0) {
+          candidates = filterQuestions(event, skill, diff);
+          if (candidates.length > 0) {
             currentDifficulty = diff;
             break;
           }
         }
-        if (possibleQuestions.length === 0) {
-          document.getElementById('mainContent').innerHTML = `<h1>No questions found for your selection.</h1>`;
+        if (candidates.length === 0) {
+          document.getElementById('mainContent').innerHTML = `<h1>No questions found.</h1>`;
           return;
         }
       }
 
+      // pick random, avoid immediate repeat
       let q;
       do {
-        q = possibleQuestions[Math.floor(Math.random() * possibleQuestions.length)];
-      } while (q === lastQuestion && possibleQuestions.length > 1);
+        q = candidates[Math.floor(Math.random() * candidates.length)];
+      } while (q === lastQuestion && candidates.length > 1);
       lastQuestion = q;
 
-      let formHTML = `<form id="answerForm">`;
+      // build form
+      let html = `<form id="answerForm">`;
       q.choices.forEach(choice => {
-        formHTML += `<label><input type="radio" name="userAnswer" value="${choice}" required> ${choice}</label>`;
+        html += `<label><input type="radio" name="userAnswer" value="${choice}" required> ${choice}</label>`;
       });
-      formHTML += `<button type="submit">Submit</button></form>`;
+      html += `<button type="submit">Submit</button></form><div id="feedback"></div>`;
 
       document.getElementById('mainContent').innerHTML = `
         <h1>${q.event} - ${q.skill} (Difficulty: ${q.difficulty})</h1>
         <p>${q.question}</p>
-        ${formHTML}
-        <div id="feedback"></div>
+        ${html}
       `;
 
-      document.getElementById('answerForm').addEventListener('submit', function(e) {
+      document.getElementById('answerForm').addEventListener('submit', e => {
         e.preventDefault();
-        checkAnswer(q.answer);
+        // check answer
+        const selected = document.querySelector('input[name="userAnswer"]:checked').value;
+        const correct = q.answer;
+        const fb = document.getElementById('feedback');
+        if (selected.toLowerCase() === correct.toLowerCase()) {
+          fb.innerHTML = '<span style="color:#4caf50">✅ Correct!</span>';
+          if (currentDifficulty < maxDifficulty) currentDifficulty++;
+        } else {
+          fb.innerHTML = `<span style="color:#f44336">❌ Incorrect.</span> Correct answer: <strong>${correct}</strong>`;
+          if (currentDifficulty > 1) currentDifficulty--;
+        }
       });
-    }
-
-    function checkAnswer(correctAnswer) {
-      const inputs = document.querySelectorAll('input[name="userAnswer"]');
-      let userAnswer = '';
-      inputs.forEach(input => { if(input.checked) userAnswer = input.value; });
-
-      const feedback = document.getElementById('feedback');
-      if (userAnswer.toLowerCase() === correctAnswer.toLowerCase()) {
-        feedback.innerHTML = '<span style="color: #4caf50;">✅ Correct!</span>';
-        if (currentDifficulty < maxDifficulty) currentDifficulty++;
-      } else {
-        feedback.innerHTML = `<span style="color: #f44336;">❌ Incorrect.</span> Correct answer: <strong>${correctAnswer}</strong>`;
-        if (currentDifficulty > 1) currentDifficulty--;
-      }
     }
 
     function goBack() {
@@ -254,14 +256,10 @@
         <h1>Welcome to Science Olympiad Prep</h1>
         <p>Select a division to begin answering questions.</p>`;
     }
-
-    // Load questions on page load
-    window.onload = () => {
-      loadQuestions();
-    };
   </script>
 </body>
 </html>
+
 
 
 
