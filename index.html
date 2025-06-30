@@ -34,7 +34,6 @@
       max-width: 480px;
       width: 100%;
       box-shadow: 0 0 30px rgba(76,175,80,0.7);
-      transition: background-color 0.5s ease, color 0.5s ease;
     }
     h1 {
       font-weight: 800;
@@ -82,7 +81,6 @@
       background-color: #4caf50;
       color: black;
     }
-
     .timer-section {
       margin-bottom: 30px;
       text-align: center;
@@ -95,8 +93,9 @@
     }
     .timer-buttons {
       display: flex;
+      flex-wrap: wrap;
       justify-content: center;
-      gap: 16px;
+      gap: 12px;
       margin-top: 12px;
     }
     button.timer-btn {
@@ -104,15 +103,14 @@
       border: none;
       color: black;
       font-weight: 700;
-      padding: 12px 28px;
-      font-size: 1.1rem;
+      padding: 12px 20px;
+      font-size: 1rem;
       border-radius: 8px;
       cursor: pointer;
     }
     button.timer-btn:hover {
       background-color: #43a047;
     }
-
     #todo-container {
       margin-top: 10px;
     }
@@ -215,6 +213,7 @@
         <button class="timer-btn" id="pomodoro-start">Start</button>
         <button class="timer-btn" id="pomodoro-pause">Pause</button>
         <button class="timer-btn" id="pomodoro-reset">Reset</button>
+        <button class="timer-btn" id="pomodoro-break">Start Break</button>
       </div>
     </section>
 
@@ -225,6 +224,7 @@
         <button class="timer-btn" id="ultradian-start">Start</button>
         <button class="timer-btn" id="ultradian-pause">Pause</button>
         <button class="timer-btn" id="ultradian-reset">Reset</button>
+        <button class="timer-btn" id="ultradian-break">Start Break</button>
       </div>
     </section>
 
@@ -239,48 +239,41 @@
   </div>
 
   <script>
-    // Theme logic
+    // Theme selection
     const themeBtn = document.getElementById('bg-select-btn');
     const themeOptions = document.getElementById('bg-options');
-
-    themeBtn.addEventListener('click', () => {
-      themeOptions.style.display = themeOptions.style.display === 'block' ? 'none' : 'block';
-    });
-
-    document.addEventListener('click', (e) => {
+    themeBtn.onclick = () => themeOptions.style.display = themeOptions.style.display === 'block' ? 'none' : 'block';
+    document.addEventListener('click', e => {
       if (!themeBtn.contains(e.target) && !themeOptions.contains(e.target)) {
         themeOptions.style.display = 'none';
       }
     });
-
     themeOptions.querySelectorAll('li').forEach(item => {
-      item.addEventListener('click', () => {
+      item.onclick = () => {
         document.body.className = `theme-${item.dataset.theme}`;
         localStorage.setItem('theme', item.dataset.theme);
         themeOptions.style.display = 'none';
-      });
+      };
     });
-
-    window.addEventListener('load', () => {
+    window.onload = () => {
       const savedTheme = localStorage.getItem('theme');
-      if (savedTheme) {
-        document.body.className = `theme-${savedTheme}`;
-      }
-    });
+      if (savedTheme) document.body.className = `theme-${savedTheme}`;
+    };
 
-    // Timer Class
+    // Timer class
     class Timer {
-      constructor(displayId, duration) {
-        this.display = document.getElementById(displayId);
-        this.duration = duration * 60;
+      constructor(id, duration) {
+        this.display = document.getElementById(id);
+        this.defaultDuration = duration * 60;
+        this.duration = this.defaultDuration;
         this.remaining = this.duration;
-        this.running = false;
         this.interval = null;
+        this.running = false;
       }
       updateDisplay() {
-        const mins = Math.floor(this.remaining / 60);
-        const secs = this.remaining % 60;
-        this.display.textContent = `${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
+        const m = String(Math.floor(this.remaining / 60)).padStart(2, '0');
+        const s = String(this.remaining % 60).padStart(2, '0');
+        this.display.textContent = `${m}:${s}`;
       }
       start() {
         if (this.running) return;
@@ -304,9 +297,16 @@
       }
       reset() {
         clearInterval(this.interval);
+        this.duration = this.defaultDuration;
         this.remaining = this.duration;
         this.running = false;
         this.updateDisplay();
+      }
+      startBreak(minutes) {
+        this.reset();
+        this.duration = minutes * 60;
+        this.remaining = this.duration;
+        this.start();
       }
     }
 
@@ -315,23 +315,24 @@
     document.getElementById('pomodoro-start').onclick = () => pomodoro.start();
     document.getElementById('pomodoro-pause').onclick = () => pomodoro.pause();
     document.getElementById('pomodoro-reset').onclick = () => pomodoro.reset();
+    document.getElementById('pomodoro-break').onclick = () => pomodoro.startBreak(5);
 
     const ultradian = new Timer('ultradian-timer', 90);
     ultradian.updateDisplay();
     document.getElementById('ultradian-start').onclick = () => ultradian.start();
     document.getElementById('ultradian-pause').onclick = () => ultradian.pause();
     document.getElementById('ultradian-reset').onclick = () => ultradian.reset();
+    document.getElementById('ultradian-break').onclick = () => ultradian.startBreak(20);
 
-    // To-do List
-    const form = document.getElementById('new-task-form');
-    const input = document.getElementById('new-task');
-    const list = document.getElementById('tasks-list');
+    // To-do list
+    const taskInput = document.getElementById('new-task');
+    const taskList = document.getElementById('tasks-list');
     let tasks = JSON.parse(localStorage.getItem('tasks') || '[]');
     function saveTasks() {
       localStorage.setItem('tasks', JSON.stringify(tasks));
     }
     function renderTasks() {
-      list.innerHTML = '';
+      taskList.innerHTML = '';
       tasks.forEach((task, i) => {
         const li = document.createElement('li');
         li.className = task.done ? 'completed' : '';
@@ -349,13 +350,13 @@
           saveTasks();
           renderTasks();
         };
-        list.appendChild(li);
+        taskList.appendChild(li);
       });
     }
-    form.onsubmit = e => {
+    document.getElementById('new-task-form').onsubmit = e => {
       e.preventDefault();
-      tasks.push({ text: input.value, done: false });
-      input.value = '';
+      tasks.push({ text: taskInput.value, done: false });
+      taskInput.value = '';
       saveTasks();
       renderTasks();
     };
@@ -363,4 +364,5 @@
   </script>
 </body>
 </html>
+
 
