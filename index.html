@@ -150,6 +150,8 @@
       'Anatomy and Physiology': ['Diagrams', 'Multiple Choice', 'Everything Else']
     };
 
+    let allQuestions = [];
+
     function selectDivision(division) {
       const eventSelect = document.getElementById('eventSelect');
       const main = document.getElementById('mainContent');
@@ -165,6 +167,12 @@
       eventsSection.classList.add('active');
       updateSkills();
       main.innerHTML = `<h1>Division ${division} - Question Page</h1><p>Select an event, skill, and year on the left to get started.</p>`;
+
+      fetch('questions.json')
+        .then(res => res.json())
+        .then(data => {
+          allQuestions = data;
+        });
     }
 
     function updateSkills() {
@@ -189,6 +197,7 @@
   </script>
 </body>
 </html>
+
 
 
 
