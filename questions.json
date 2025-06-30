@@ -1,0 +1,10 @@
+[
+  {
+    "event": "Entomology",
+    "skill": "Everything Else",
+    "year": 2025,
+    "question": "What is the function of the elytra in beetles?",
+    "choices": ["Feeding", "Protection", "Hearing", "Breathing"],
+    "answer": "Protection"
+  }
+]
