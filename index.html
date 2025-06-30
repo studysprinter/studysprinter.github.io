@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" >
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -19,191 +19,269 @@
       align-items: center;
       min-height: 100vh;
       padding: 30px 20px;
+      user-select: none;
     }
     h1 {
-      margin-bottom: 10px;
+      margin-bottom: 15px;
       font-weight: 700;
       color: #4caf50;
       letter-spacing: 1.5px;
+      text-align: center;
+      user-select: text;
     }
 
     /* Container */
     .container {
-      max-width: 600px;
+      max-width: 650px;
       width: 100%;
       background-color: #1e1e1e;
-      border-radius: 12px;
-      padding: 25px 30px;
-      box-shadow: 0 0 20px rgba(76, 175, 80, 0.5);
+      border-radius: 14px;
+      padding: 30px 35px;
+      box-shadow: 0 0 25px rgba(76, 175, 80, 0.7);
       display: flex;
       flex-direction: column;
-      gap: 30px;
+      gap: 40px;
+    }
+
+    /* Section titles */
+    section > h2 {
+      margin-bottom: 18px;
+      font-weight: 700;
+      color: #81c784;
+      border-bottom: 2px solid #4caf50;
+      padding-bottom: 6px;
+      user-select: text;
     }
 
     /* To-Do Section */
-    #todo-section h2 {
-      margin-bottom: 12px;
-      font-weight: 600;
-      color: #81c784;
+    #todo-section {
+      user-select: none;
     }
     #new-task-form {
       display: flex;
-      gap: 12px;
-      margin-bottom: 15px;
+      gap: 14px;
+      margin-bottom: 18px;
     }
     #new-task-input {
       flex-grow: 1;
-      padding: 10px 14px;
-      border-radius: 6px;
+      padding: 14px 18px;
+      border-radius: 8px;
       border: none;
-      font-size: 1rem;
+      font-size: 1.1rem;
       background-color: #2a2a2a;
-      color: #e0e0e0;
+      color: #eee;
+      transition: box-shadow 0.3s ease;
     }
     #new-task-input::placeholder {
-      color: #aaa;
+      color: #9e9e9e;
+    }
+    #new-task-input:focus {
+      outline: none;
+      box-shadow: 0 0 8px #4caf50;
+      background-color: #323232;
     }
     #add-task-btn {
       background-color: #4caf50;
       border: none;
       color: black;
       font-weight: 700;
-      padding: 0 16px;
-      border-radius: 6px;
+      padding: 0 22px;
+      border-radius: 8px;
       cursor: pointer;
+      font-size: 1.1rem;
+      user-select: none;
       transition: background-color 0.25s ease;
+      box-shadow: 0 4px 10px rgba(76,175,80,0.5);
     }
     #add-task-btn:hover {
       background-color: #43a047;
+      box-shadow: 0 5px 15px rgba(67,160,71,0.6);
     }
+
     ul#task-list {
       list-style: none;
       padding-left: 0;
-      max-height: 260px;
+      max-height: 320px;
       overflow-y: auto;
+      user-select: none;
     }
     ul#task-list li {
       background-color: #2a2a2a;
-      padding: 12px 15px;
-      margin-bottom: 10px;
-      border-radius: 8px;
+      padding: 14px 20px;
+      margin-bottom: 12px;
+      border-radius: 12px;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      user-select: none;
-      font-size: 1rem;
+      box-shadow: 0 1px 6px rgba(0,0,0,0.5);
+      transition: background-color 0.3s ease;
+      cursor: pointer;
+      font-size: 1.1rem;
+    }
+    ul#task-list li:hover {
+      background-color: #394939;
     }
     ul#task-list li.completed {
       text-decoration: line-through;
       color: #757575;
+      background-color: #1f1f1f;
+      cursor: default;
+      box-shadow: none;
+    }
+    ul#task-list li.completed:hover {
+      background-color: #1f1f1f;
     }
     ul#task-list li button.delete-btn {
       background: transparent;
       border: none;
       color: #f44336;
       font-weight: 700;
-      font-size: 1.1rem;
+      font-size: 1.3rem;
       cursor: pointer;
       user-select: none;
+      padding: 0 6px;
+      opacity: 0.75;
+      transition: opacity 0.3s ease;
+      flex-shrink: 0;
     }
     ul#task-list li button.delete-btn:hover {
+      opacity: 1;
       color: #d32f2f;
     }
     ul#task-list li label {
       flex-grow: 1;
+      user-select: none;
       cursor: pointer;
     }
     ul#task-list li input[type="checkbox"] {
-      margin-right: 15px;
+      margin-right: 18px;
       cursor: pointer;
-      width: 18px;
-      height: 18px;
+      width: 20px;
+      height: 20px;
+      flex-shrink: 0;
     }
 
     /* Timer Section */
-    #timer-section h2 {
-      margin-bottom: 12px;
-      font-weight: 600;
-      color: #81c784;
+    #timer-section {
+      user-select: none;
     }
     #timer-controls {
       display: flex;
-      gap: 15px;
-      margin-bottom: 20px;
+      gap: 20px;
+      margin-bottom: 25px;
       flex-wrap: wrap;
+      justify-content: center;
     }
     #timer-controls button {
       flex-grow: 1;
-      padding: 12px 0;
+      min-width: 140px;
+      padding: 14px 0;
       font-weight: 700;
-      font-size: 1rem;
-      border-radius: 8px;
+      font-size: 1.15rem;
+      border-radius: 12px;
       border: none;
       cursor: pointer;
       user-select: none;
       background-color: #4caf50;
       color: black;
-      transition: background-color 0.25s ease;
+      transition: background-color 0.25s ease, box-shadow 0.3s ease;
+      box-shadow: 0 5px 14px rgba(76,175,80,0.6);
     }
     #timer-controls button.active, #timer-controls button:hover {
       background-color: #43a047;
+      box-shadow: 0 6px 20px rgba(67,160,71,0.8);
     }
 
     #timer-display {
-      font-size: 3.5rem;
+      font-size: 4rem;
       font-weight: 700;
       text-align: center;
-      letter-spacing: 5px;
+      letter-spacing: 7px;
       user-select: none;
-      margin-bottom: 10px;
+      margin-bottom: 12px;
+      color: #a5d6a7;
+      text-shadow: 0 0 10px #4caf50aa;
     }
     #timer-label {
-      font-size: 1.1rem;
+      font-size: 1.3rem;
       text-align: center;
-      color: #a5d6a7;
+      color: #81c784;
       user-select: none;
-      margin-bottom: 20px;
+      margin-bottom: 24px;
+      font-weight: 600;
+      letter-spacing: 1.2px;
+      text-transform: uppercase;
     }
     #timer-buttons {
       display: flex;
       justify-content: center;
-      gap: 25px;
+      gap: 32px;
+      flex-wrap: wrap;
     }
     #timer-buttons button {
-      padding: 10px 22px;
+      padding: 14px 28px;
       font-weight: 700;
-      font-size: 1rem;
-      border-radius: 8px;
+      font-size: 1.15rem;
+      border-radius: 12px;
       border: none;
       cursor: pointer;
       user-select: none;
       background-color: #4caf50;
       color: black;
-      transition: background-color 0.25s ease;
+      transition: background-color 0.25s ease, box-shadow 0.3s ease;
+      box-shadow: 0 5px 12px rgba(76,175,80,0.6);
+      min-width: 120px;
     }
     #timer-buttons button:hover {
       background-color: #43a047;
+      box-shadow: 0 6px 20px rgba(67,160,71,0.8);
+    }
+
+    /* Progress Bar */
+    #progress-bar {
+      height: 12px;
+      background: #394939;
+      border-radius: 8px;
+      overflow: hidden;
+      margin-bottom: 22px;
+      box-shadow: inset 0 0 8px #000;
+    }
+    #progress-bar-inner {
+      height: 100%;
+      background: #4caf50;
+      width: 0%;
+      transition: width 1s linear;
+      box-shadow: 0 0 10px #4caf50aa;
     }
 
     /* Scrollbar */
     ::-webkit-scrollbar {
-      width: 8px;
+      width: 9px;
     }
     ::-webkit-scrollbar-thumb {
       background: #4caf50;
-      border-radius: 10px;
+      border-radius: 12px;
     }
     ::-webkit-scrollbar-track {
       background: #1e1e1e;
     }
 
     /* Responsive */
-    @media (max-width: 640px) {
+    @media (max-width: 700px) {
       .container {
-        padding: 20px 15px;
+        padding: 25px 20px;
       }
       #timer-display {
-        font-size: 2.8rem;
+        font-size: 3rem;
+        letter-spacing: 4px;
+      }
+      #timer-controls button {
+        min-width: 120px;
+        font-size: 1rem;
+      }
+      #timer-buttons button {
+        min-width: 100px;
+        font-size: 1rem;
       }
     }
   </style>
@@ -214,27 +292,32 @@
   <div class="container">
 
     <!-- To-Do List Section -->
-    <section id="todo-section">
+    <section id="todo-section" aria-label="To-Do List">
       <h2>To-Do List</h2>
-      <form id="new-task-form">
-        <input type="text" id="new-task-input" placeholder="Add a new task..." autocomplete="off" required />
-        <button type="submit" id="add-task-btn">Add</button>
+      <form id="new-task-form" aria-label="Add new task form">
+        <input type="text" id="new-task-input" placeholder="Add a new task..." autocomplete="off" aria-required="true" aria-label="New task input" />
+        <button type="submit" id="add-task-btn" aria-label="Add new task">Add</button>
       </form>
-      <ul id="task-list"></ul>
+      <ul id="task-list" role="list" aria-live="polite" aria-relevant="additions removals"></ul>
     </section>
 
     <!-- Timer Section -->
-    <section id="timer-section">
+    <section id="timer-section" aria-label="Timer">
       <h2>Timer</h2>
-      <div id="timer-controls">
-        <button id="pomodoro-btn" class="active" title="25 min work + 5 min break">Pomodoro</button>
-        <button id="ultradian-btn" title="90 min work + 20 min break">Ultradian</button>
+      <div id="timer-controls" role="group" aria-label="Select timer mode">
+        <button id="pomodoro-btn" class="active" title="25 min work + 5 min break" aria-pressed="true">Pomodoro</button>
+        <button id="ultradian-btn" title="90 min work + 20 min break" aria-pressed="false">Ultradian</button>
       </div>
-      <div id="timer-label">Work Session</div>
-      <div id="timer-display">25:00</div>
+
+      <div id="timer-label" aria-live="polite" aria-atomic="true">Work Session</div>
+      <div id="timer-display" aria-live="polite" aria-atomic="true">25:00</div>
+      <div id="progress-bar" aria-hidden="true">
+        <div id="progress-bar-inner"></div>
+      </div>
+
       <div id="timer-buttons">
-        <button id="start-pause-btn">Start</button>
-        <button id="reset-btn">Reset</button>
+        <button id="start-pause-btn" aria-label="Start or pause timer">Start</button>
+        <button id="reset-btn" aria-label="Reset timer">Reset</button>
       </div>
     </section>
 
@@ -254,14 +337,29 @@
     tasks.forEach((task, idx) => {
       const li = document.createElement('li');
       li.className = task.completed ? 'completed' : '';
+      li.setAttribute('tabindex', '0');
+      li.setAttribute('role', 'listitem');
       li.innerHTML = `
         <label>
-          <input type="checkbox" ${task.completed ? 'checked' : ''} data-index="${idx}" />
-          ${task.text}
+          <input type="checkbox" ${task.completed ? 'checked' : ''} data-index="${idx}" aria-label="Mark task as done" />
+          ${escapeHtml(task.text)}
         </label>
         <button class="delete-btn" data-index="${idx}" aria-label="Delete task">&times;</button>
       `;
       taskList.appendChild(li);
+    });
+  }
+
+  // Escape HTML to avoid XSS
+  function escapeHtml(text) {
+    return text.replace(/[&<>"']/g, function(m) {
+      return ({
+        '&': '&amp;',
+        '<': '&lt;',
+        '>': '&gt;',
+        '"': '&quot;',
+        "'": '&#39;'
+      })[m];
     });
   }
 
@@ -270,6 +368,7 @@
     localStorage.setItem('tasks', JSON.stringify(tasks));
   }
 
+  // Toggle complete
   taskList.addEventListener('change', e => {
     if (e.target.matches('input[type="checkbox"]')) {
       const idx = e.target.dataset.index;
@@ -279,12 +378,15 @@
     }
   });
 
+  // Delete task with confirmation
   taskList.addEventListener('click', e => {
     if (e.target.matches('.delete-btn')) {
       const idx = e.target.dataset.index;
-      tasks.splice(idx, 1);
-      updateTasks();
-      renderTasks();
+      if (confirm('Delete this task?')) {
+        tasks.splice(idx, 1);
+        updateTasks();
+        renderTasks();
+      }
     }
   });
 
@@ -308,9 +410,104 @@
   const timerDisplay = document.getElementById('timer-display');
   const startPauseBtn = document.getElementById('start-pause-btn');
   const resetBtn = document.getElementById('reset-btn');
+  const progressBarInner = document.getElementById('progress-bar-inner');
 
   const MODES = {
-    pomodoro: { work: 25*60, break*
+    pomodoro: { work: 25*60, break: 5*60 },
+    ultradian: { work: 90*60, break: 20*60 }
+  };
+
+  let currentMode = 'pomodoro';
+  let isWorkSession = true;
+  let timer = null;
+  let timeLeft = MODES[currentMode].work;
+  let isRunning = false;
+  let totalTime = timeLeft;
+
+  function updateDisplay() {
+    const minutes = Math.floor(timeLeft / 60).toString().padStart(2,'0');
+    const seconds = (timeLeft % 60).toString().padStart(2,'0');
+    timerDisplay.textContent = `${minutes}:${seconds}`;
+    timerLabel.textContent = isWorkSession ? 'Work Session' : 'Break Session';
+    progressBarInner.style.width = `${(1 - timeLeft/totalTime)*100}%`;
+  }
+
+  function switchMode(mode) {
+    if(isRunning) stopTimer();
+    currentMode = mode;
+    isWorkSession = true;
+    timeLeft = MODES[mode].work;
+    totalTime = timeLeft;
+    updateDisplay();
+    pomodoroBtn.classList.toggle('active', mode === 'pomodoro');
+    ultradianBtn.classList.toggle('active', mode === 'ultradian');
+    pomodoroBtn.setAttribute('aria-pressed', mode === 'pomodoro');
+    ultradianBtn.setAttribute('aria-pressed', mode === 'ultradian');
+    startPauseBtn.textContent = 'Start';
+  }
+
+  function playSound() {
+    const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    const oscillator = audioCtx.createOscillator();
+    const gainNode = audioCtx.createGain();
+    oscillator.connect(gainNode);
+    gainNode.connect(audioCtx.destination);
+    oscillator.type = 'sine';
+    oscillator.frequency.setValueAtTime(440, audioCtx.currentTime);
+    oscillator.start();
+    gainNode.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + 1);
+    oscillator.stop(audioCtx.currentTime + 1);
+  }
+
+  function startTimer() {
+    if(isRunning) return;
+    isRunning = true;
+    startPauseBtn.textContent = 'Pause';
+
+    timer = setInterval(() => {
+      if(timeLeft > 0) {
+        timeLeft--;
+        updateDisplay();
+      } else {
+        // Switch session
+        playSound();
+        isWorkSession = !isWorkSession;
+        timeLeft = isWorkSession ? MODES[currentMode].work : MODES[currentMode].break;
+        totalTime = timeLeft;
+        updateDisplay();
+        alert(isWorkSession ? 'Work session started!' : 'Break time! Relax.');
+      }
+    }, 1000);
+  }
+
+  function stopTimer() {
+    if(timer) clearInterval(timer);
+    isRunning = false;
+    startPauseBtn.textContent = 'Start';
+  }
+
+  function resetTimer() {
+    stopTimer();
+    isWorkSession = true;
+    timeLeft = MODES[currentMode].work;
+    totalTime = timeLeft;
+    updateDisplay();
+  }
+
+  pomodoroBtn.addEventListener('click', () => switchMode('pomodoro'));
+  ultradianBtn.addEventListener('click', () => switchMode('ultradian'));
+  startPauseBtn.addEventListener('click', () => {
+    if(isRunning) stopTimer();
+    else startTimer();
+  });
+  resetBtn.addEventListener('click', resetTimer);
+
+  updateDisplay();
+</script>
+
+</body>
+</html>
+
 
 
 
