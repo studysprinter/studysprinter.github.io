@@ -1,527 +1,491 @@
 <!DOCTYPE html>
-<html lang="en" >
+<html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Productivity Hub</title>
-  <style>
-    /* Reset & base */
-    * {
-      box-sizing: border-box;
-    }
-    body {
-      margin: 0;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background-color: #121212;
-      color: #e0e0e0;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      min-height: 100vh;
-      padding: 30px 20px;
-      user-select: none;
-    }
-    h1 {
-      margin-bottom: 15px;
-      font-weight: 700;
-      color: #4caf50;
-      letter-spacing: 1.5px;
-      text-align: center;
-      user-select: text;
-    }
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Productivity Timer & To-Do</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet" />
+<style>
+  /* Reset & base */
+  * {
+    box-sizing: border-box;
+  }
+  body, html {
+    margin: 0; padding: 0; height: 100%;
+    font-family: 'Inter', sans-serif;
+    transition: background-color 0.5s ease, color 0.5s ease;
+  }
+  body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100vh;
+    background-color: #121212;
+    color: #e0e0e0;
+    background-size: cover;
+    background-position: center center;
+    background-repeat: no-repeat;
+  }
+  /* Container */
+  .container {
+    background-color: rgba(30,30,30,0.85);
+    margin: 40px 20px;
+    padding: 25px 30px;
+    border-radius: 12px;
+    max-width: 480px;
+    width: 100%;
+    box-shadow: 0 0 30px rgba(76,175,80,0.7);
+    color: #e0e0e0;
+    transition: background-color 0.5s ease, color 0.5s ease;
+  }
+  /* Header */
+  h1 {
+    font-weight: 800;
+    margin-bottom: 12px;
+    letter-spacing: 1.6px;
+    text-align: center;
+  }
+  /* Theme selector button and dropdown */
+  #bg-select-wrapper {
+    position: relative;
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  #bg-select-btn {
+    background-color: #4caf50;
+    border: none;
+    color: black;
+    font-weight: 700;
+    padding: 10px 22px;
+    font-size: 1rem;
+    border-radius: 8px;
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(76,175,80,0.6);
+    user-select: none;
+    transition: background-color 0.3s ease;
+  }
+  #bg-select-btn:hover {
+    background-color: #43a047;
+  }
+  #bg-options {
+    position: absolute;
+    top: 42px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #2a2a2a;
+    border-radius: 8px;
+    box-shadow: 0 6px 18px rgba(0,0,0,0.7);
+    list-style: none;
+    padding: 8px 0;
+    margin: 0;
+    width: 200px;
+    user-select: none;
+    display: none;
+    z-index: 100;
+  }
+  #bg-options li {
+    padding: 10px 18px;
+    cursor: pointer;
+    color: #eee;
+    font-weight: 600;
+    transition: background-color 0.3s ease;
+  }
+  #bg-options li:hover,
+  #bg-options li:focus {
+    background-color: #4caf50;
+    color: black;
+    outline: none;
+  }
+  /* Timers */
+  .timer-section {
+    margin-bottom: 30px;
+    text-align: center;
+  }
+  .timer-buttons {
+    margin-top: 12px;
+    display: flex;
+    justify-content: center;
+    gap: 16px;
+  }
+  button.timer-btn {
+    background-color: #4caf50;
+    border: none;
+    color: black;
+    font-weight: 700;
+    padding: 12px 28px;
+    font-size: 1.1rem;
+    border-radius: 8px;
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(76,175,80,0.6);
+    user-select: none;
+    transition: background-color 0.3s ease;
+  }
+  button.timer-btn:hover {
+    background-color: #43a047;
+  }
+  .timer-display {
+    font-size: 3rem;
+    font-weight: 900;
+    letter-spacing: 2px;
+    margin-top: 15px;
+    color: #81c784;
+  }
+  /* To-do list */
+  #todo-container {
+    margin-top: 10px;
+  }
+  #new-task-form {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 12px;
+  }
+  #new-task {
+    flex-grow: 1;
+    padding: 10px 14px;
+    font-size: 1rem;
+    border-radius: 6px;
+    border: none;
+    background-color: #2a2a2a;
+    color: #eee;
+    box-shadow: inset 0 0 5px #000;
+  }
+  #add-task-btn {
+    background-color: #4caf50;
+    border: none;
+    color: black;
+    font-weight: 700;
+    padding: 10px 18px;
+    font-size: 1rem;
+    border-radius: 6px;
+    cursor: pointer;
+    box-shadow: 0 4px 10px rgba(76,175,80,0.6);
+    user-select: none;
+    transition: background-color 0.3s ease;
+  }
+  #add-task-btn:hover {
+    background-color: #43a047;
+  }
+  #tasks-list {
+    list-style: none;
+    padding-left: 0;
+    max-height: 200px;
+    overflow-y: auto;
+    border-top: 1px solid #444;
+  }
+  #tasks-list li {
+    background-color: #1e1e1e;
+    margin-bottom: 8px;
+    padding: 10px 14px;
+    border-radius: 8px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: #ccc;
+  }
+  #tasks-list li.completed {
+    text-decoration: line-through;
+    color: #4caf50;
+    opacity: 0.8;
+  }
+  .task-text {
+    flex-grow: 1;
+    cursor: pointer;
+  }
+  .delete-btn {
+    background: transparent;
+    border: none;
+    color: #f44336;
+    font-weight: 700;
+    font-size: 1.25rem;
+    cursor: pointer;
+    user-select: none;
+  }
+  .delete-btn:hover {
+    color: #e53935;
+  }
 
-    /* Container */
-    .container {
-      max-width: 650px;
-      width: 100%;
-      background-color: #1e1e1e;
-      border-radius: 14px;
-      padding: 30px 35px;
-      box-shadow: 0 0 25px rgba(76, 175, 80, 0.7);
-      display: flex;
-      flex-direction: column;
-      gap: 40px;
-    }
-
-    /* Section titles */
-    section > h2 {
-      margin-bottom: 18px;
-      font-weight: 700;
-      color: #81c784;
-      border-bottom: 2px solid #4caf50;
-      padding-bottom: 6px;
-      user-select: text;
-    }
-
-    /* To-Do Section */
-    #todo-section {
-      user-select: none;
-    }
-    #new-task-form {
-      display: flex;
-      gap: 14px;
-      margin-bottom: 18px;
-    }
-    #new-task-input {
-      flex-grow: 1;
-      padding: 14px 18px;
-      border-radius: 8px;
-      border: none;
-      font-size: 1.1rem;
-      background-color: #2a2a2a;
-      color: #eee;
-      transition: box-shadow 0.3s ease;
-    }
-    #new-task-input::placeholder {
-      color: #9e9e9e;
-    }
-    #new-task-input:focus {
-      outline: none;
-      box-shadow: 0 0 8px #4caf50;
-      background-color: #323232;
-    }
-    #add-task-btn {
-      background-color: #4caf50;
-      border: none;
-      color: black;
-      font-weight: 700;
-      padding: 0 22px;
-      border-radius: 8px;
-      cursor: pointer;
-      font-size: 1.1rem;
-      user-select: none;
-      transition: background-color 0.25s ease;
-      box-shadow: 0 4px 10px rgba(76,175,80,0.5);
-    }
-    #add-task-btn:hover {
-      background-color: #43a047;
-      box-shadow: 0 5px 15px rgba(67,160,71,0.6);
-    }
-
-    ul#task-list {
-      list-style: none;
-      padding-left: 0;
-      max-height: 320px;
-      overflow-y: auto;
-      user-select: none;
-    }
-    ul#task-list li {
-      background-color: #2a2a2a;
-      padding: 14px 20px;
-      margin-bottom: 12px;
-      border-radius: 12px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      box-shadow: 0 1px 6px rgba(0,0,0,0.5);
-      transition: background-color 0.3s ease;
-      cursor: pointer;
-      font-size: 1.1rem;
-    }
-    ul#task-list li:hover {
-      background-color: #394939;
-    }
-    ul#task-list li.completed {
-      text-decoration: line-through;
-      color: #757575;
-      background-color: #1f1f1f;
-      cursor: default;
-      box-shadow: none;
-    }
-    ul#task-list li.completed:hover {
-      background-color: #1f1f1f;
-    }
-    ul#task-list li button.delete-btn {
-      background: transparent;
-      border: none;
-      color: #f44336;
-      font-weight: 700;
-      font-size: 1.3rem;
-      cursor: pointer;
-      user-select: none;
-      padding: 0 6px;
-      opacity: 0.75;
-      transition: opacity 0.3s ease;
-      flex-shrink: 0;
-    }
-    ul#task-list li button.delete-btn:hover {
-      opacity: 1;
-      color: #d32f2f;
-    }
-    ul#task-list li label {
-      flex-grow: 1;
-      user-select: none;
-      cursor: pointer;
-    }
-    ul#task-list li input[type="checkbox"] {
-      margin-right: 18px;
-      cursor: pointer;
-      width: 20px;
-      height: 20px;
-      flex-shrink: 0;
-    }
-
-    /* Timer Section */
-    #timer-section {
-      user-select: none;
-    }
-    #timer-controls {
-      display: flex;
-      gap: 20px;
-      margin-bottom: 25px;
-      flex-wrap: wrap;
-      justify-content: center;
-    }
-    #timer-controls button {
-      flex-grow: 1;
-      min-width: 140px;
-      padding: 14px 0;
-      font-weight: 700;
-      font-size: 1.15rem;
-      border-radius: 12px;
-      border: none;
-      cursor: pointer;
-      user-select: none;
-      background-color: #4caf50;
-      color: black;
-      transition: background-color 0.25s ease, box-shadow 0.3s ease;
-      box-shadow: 0 5px 14px rgba(76,175,80,0.6);
-    }
-    #timer-controls button.active, #timer-controls button:hover {
-      background-color: #43a047;
-      box-shadow: 0 6px 20px rgba(67,160,71,0.8);
-    }
-
-    #timer-display {
-      font-size: 4rem;
-      font-weight: 700;
-      text-align: center;
-      letter-spacing: 7px;
-      user-select: none;
-      margin-bottom: 12px;
-      color: #a5d6a7;
-      text-shadow: 0 0 10px #4caf50aa;
-    }
-    #timer-label {
-      font-size: 1.3rem;
-      text-align: center;
-      color: #81c784;
-      user-select: none;
-      margin-bottom: 24px;
-      font-weight: 600;
-      letter-spacing: 1.2px;
-      text-transform: uppercase;
-    }
-    #timer-buttons {
-      display: flex;
-      justify-content: center;
-      gap: 32px;
-      flex-wrap: wrap;
-    }
-    #timer-buttons button {
-      padding: 14px 28px;
-      font-weight: 700;
-      font-size: 1.15rem;
-      border-radius: 12px;
-      border: none;
-      cursor: pointer;
-      user-select: none;
-      background-color: #4caf50;
-      color: black;
-      transition: background-color 0.25s ease, box-shadow 0.3s ease;
-      box-shadow: 0 5px 12px rgba(76,175,80,0.6);
-      min-width: 120px;
-    }
-    #timer-buttons button:hover {
-      background-color: #43a047;
-      box-shadow: 0 6px 20px rgba(67,160,71,0.8);
-    }
-
-    /* Progress Bar */
-    #progress-bar {
-      height: 12px;
-      background: #394939;
-      border-radius: 8px;
-      overflow: hidden;
-      margin-bottom: 22px;
-      box-shadow: inset 0 0 8px #000;
-    }
-    #progress-bar-inner {
-      height: 100%;
-      background: #4caf50;
-      width: 0%;
-      transition: width 1s linear;
-      box-shadow: 0 0 10px #4caf50aa;
-    }
-
-    /* Scrollbar */
-    ::-webkit-scrollbar {
-      width: 9px;
-    }
-    ::-webkit-scrollbar-thumb {
-      background: #4caf50;
-      border-radius: 12px;
-    }
-    ::-webkit-scrollbar-track {
-      background: #1e1e1e;
-    }
-
-    /* Responsive */
-    @media (max-width: 700px) {
-      .container {
-        padding: 25px 20px;
-      }
-      #timer-display {
-        font-size: 3rem;
-        letter-spacing: 4px;
-      }
-      #timer-controls button {
-        min-width: 120px;
-        font-size: 1rem;
-      }
-      #timer-buttons button {
-        min-width: 100px;
-        font-size: 1rem;
-      }
-    }
-  </style>
+  /* Theme variants */
+  body.theme-dark {
+    background-color: #121212;
+    color: #e0e0e0;
+    background-image: none !important;
+  }
+  body.theme-light {
+    background-color: #fefefe;
+    color: #222222;
+  }
+  body.theme-cafe {
+    color: #3e2723;
+    background-image: url('https://cdn.pixabay.com/photo/2016/11/29/03/53/coffee-1869567_1280.jpg');
+    background-size: cover;
+    background-position: center center;
+  }
+  body.theme-sunset {
+    color: #4e342e;
+    background-image: url('https://cdn.pixabay.com/photo/2017/08/30/13/47/sunset-2696179_1280.jpg');
+    background-size: cover;
+    background-position: center center;
+  }
+  .container.theme-light {
+    background-color: #ffffffcc;
+    box-shadow: 0 0 25px rgba(0,0,0,0.1);
+    color: #222;
+  }
+  .container.theme-cafe {
+    background-color: rgba(161, 130, 111, 0.9);
+    box-shadow: 0 0 30px rgba(101,67,33,0.6);
+    color: #3e2723;
+  }
+  .container.theme-sunset {
+    background-color: rgba(255, 154, 158, 0.85);
+    box-shadow: 0 0 30px rgba(255,105,97,0.6);
+    color: #4e342e;
+  }
+  .container.theme-dark {
+    background-color: rgba(30,30,30,0.85);
+    box-shadow: 0 0 30px rgba(76,175,80,0.7);
+    color: #e0e0e0;
+  }
+</style>
 </head>
-<body>
+<body class="theme-dark">
+  <div class="container theme-dark">
+    <h1>Productivity Timer &amp; To-Do List</h1>
 
-  <h1>Productivity Hub</h1>
-  <div class="container">
+    <div id="bg-select-wrapper">
+      <button id="bg-select-btn" aria-haspopup="listbox" aria-expanded="false" aria-controls="bg-options">Choose Background</button>
+      <ul id="bg-options" role="listbox" tabindex="-1" aria-label="Background theme options">
+        <li role="option" tabindex="0" data-theme="dark">Dark Mode</li>
+        <li role="option" tabindex="0" data-theme="light">Light Mode</li>
+        <li role="option" tabindex="0" data-theme="cafe">Cafe Lofi Mode</li>
+        <li role="option" tabindex="0" data-theme="sunset">Sunset Mode</li>
+      </ul>
+    </div>
 
-    <!-- To-Do List Section -->
-    <section id="todo-section" aria-label="To-Do List">
+    <section class="timer-section" aria-label="Pomodoro Timer">
+      <h2>Pomodoro Timer</h2>
+      <div class="timer-display" id="pomodoro-timer">25:00</div>
+      <div class="timer-buttons">
+        <button class="timer-btn" id="pomodoro-start">Start</button>
+        <button class="timer-btn" id="pomodoro-pause">Pause</button>
+        <button class="timer-btn" id="pomodoro-reset">Reset</button>
+      </div>
+    </section>
+
+    <section class="timer-section" aria-label="Ultradian Timer">
+      <h2>Ultradian Timer</h2>
+      <div class="timer-display" id="ultradian-timer">90:00</div>
+      <div class="timer-buttons">
+        <button class="timer-btn" id="ultradian-start">Start</button>
+        <button class="timer-btn" id="ultradian-pause">Pause</button>
+        <button class="timer-btn" id="ultradian-reset">Reset</button>
+      </div>
+    </section>
+
+    <section id="todo-container" aria-label="To-Do List">
       <h2>To-Do List</h2>
-      <form id="new-task-form" aria-label="Add new task form">
-        <input type="text" id="new-task-input" placeholder="Add a new task..." autocomplete="off" aria-required="true" aria-label="New task input" />
-        <button type="submit" id="add-task-btn" aria-label="Add new task">Add</button>
+      <form id="new-task-form" aria-label="Add new task">
+        <input type="text" id="new-task" aria-label="New task input" placeholder="Add a new task..." required />
+        <button type="submit" id="add-task-btn" aria-label="Add task">Add</button>
       </form>
-      <ul id="task-list" role="list" aria-live="polite" aria-relevant="additions removals"></ul>
+      <ul id="tasks-list" aria-live="polite" aria-relevant="additions removals"></ul>
     </section>
-
-    <!-- Timer Section -->
-    <section id="timer-section" aria-label="Timer">
-      <h2>Timer</h2>
-      <div id="timer-controls" role="group" aria-label="Select timer mode">
-        <button id="pomodoro-btn" class="active" title="25 min work + 5 min break" aria-pressed="true">Pomodoro</button>
-        <button id="ultradian-btn" title="90 min work + 20 min break" aria-pressed="false">Ultradian</button>
-      </div>
-
-      <div id="timer-label" aria-live="polite" aria-atomic="true">Work Session</div>
-      <div id="timer-display" aria-live="polite" aria-atomic="true">25:00</div>
-      <div id="progress-bar" aria-hidden="true">
-        <div id="progress-bar-inner"></div>
-      </div>
-
-      <div id="timer-buttons">
-        <button id="start-pause-btn" aria-label="Start or pause timer">Start</button>
-        <button id="reset-btn" aria-label="Reset timer">Reset</button>
-      </div>
-    </section>
-
   </div>
 
 <script>
-  // ----- To-Do List -----
-  const taskForm = document.getElementById('new-task-form');
-  const taskInput = document.getElementById('new-task-input');
-  const taskList = document.getElementById('task-list');
+  // Theme selector logic
+  const btn = document.getElementById('bg-select-btn');
+  const options = document.getElementById('bg-options');
+  const container = document.querySelector('.container');
 
-  // Load tasks from localStorage
+  btn.addEventListener('click', () => {
+    const isExpanded = btn.getAttribute('aria-expanded') === 'true';
+    btn.setAttribute('aria-expanded', !isExpanded);
+    options.style.display = isExpanded ? 'none' : 'block';
+  });
+
+  document.addEventListener('click', (e) => {
+    if (!btn.contains(e.target) && !options.contains(e.target)) {
+      options.style.display = 'none';
+      btn.setAttribute('aria-expanded', 'false');
+    }
+  });
+
+  options.querySelectorAll('li').forEach(li => {
+    li.addEventListener('click', () => {
+      const theme = li.getAttribute('data-theme');
+      setTheme(theme);
+      options.style.display = 'none';
+      btn.setAttribute('aria-expanded', 'false');
+    });
+    li.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        li.click();
+      }
+    });
+  });
+
+  function setTheme(theme) {
+    document.body.className = '';
+    container.className = 'container';
+
+    switch(theme) {
+      case 'light':
+        document.body.classList.add('theme-light');
+        container.classList.add('theme-light');
+        break;
+      case 'cafe':
+        document.body.classList.add('theme-cafe');
+        container.classList.add('theme-cafe');
+        break;
+      case 'sunset':
+        document.body.classList.add('theme-sunset');
+        container.classList.add('theme-sunset');
+        break;
+      default:
+        document.body.classList.add('theme-dark');
+        container.classList.add('theme-dark');
+    }
+    localStorage.setItem('selectedTheme', theme);
+  }
+
+  document.addEventListener('DOMContentLoaded', () => {
+    const savedTheme = localStorage.getItem('selectedTheme') || 'dark';
+    setTheme(savedTheme);
+  });
+
+
+  // Timer code - generic timer class
+  class Timer {
+    constructor(displayId, durationMinutes) {
+      this.display = document.getElementById(displayId);
+      this.duration = durationMinutes * 60; // seconds
+      this.remaining = this.duration;
+      this.interval = null;
+      this.running = false;
+    }
+
+    start() {
+      if (this.running) return;
+      this.running = true;
+      const startTime = Date.now();
+      let previousElapsed = this.duration - this.remaining;
+
+      this.interval = setInterval(() => {
+        const elapsed = Math.floor((Date.now() - startTime) / 1000) + previousElapsed;
+        this.remaining = this.duration - elapsed;
+
+        if (this.remaining <= 0) {
+          this.remaining = 0;
+          this.updateDisplay();
+          this.stop();
+          this.alertEnd();
+          return;
+        }
+        this.updateDisplay();
+      }, 250);
+    }
+
+    pause() {
+      if (!this.running) return;
+      clearInterval(this.interval);
+      this.running = false;
+      this.duration = this.remaining;
+    }
+
+    reset() {
+      clearInterval(this.interval);
+      this.running = false;
+      this.remaining = this.duration;
+      this.updateDisplay();
+    }
+
+    updateDisplay() {
+      const mins = Math.floor(this.remaining / 60);
+      const secs = this.remaining % 60;
+      this.display.textContent = `${mins.toString().padStart(2,'0')}:${secs.toString().padStart(2,'0')}`;
+    }
+
+    alertEnd() {
+      alert("Timer finished!");
+    }
+  }
+
+  // Initialize timers
+  const pomodoroTimer = new Timer('pomodoro-timer', 25);
+  const ultradianTimer = new Timer('ultradian-timer', 90);
+
+  pomodoroTimer.updateDisplay();
+  ultradianTimer.updateDisplay();
+
+  // Pomodoro buttons
+  document.getElementById('pomodoro-start').addEventListener('click', () => pomodoroTimer.start());
+  document.getElementById('pomodoro-pause').addEventListener('click', () => pomodoroTimer.pause());
+  document.getElementById('pomodoro-reset').addEventListener('click', () => pomodoroTimer.reset());
+
+  // Ultradian buttons
+  document.getElementById('ultradian-start').addEventListener('click', () => ultradianTimer.start());
+  document.getElementById('ultradian-pause').addEventListener('click', () => ultradianTimer.pause());
+  document.getElementById('ultradian-reset').addEventListener('click', () => ultradianTimer.reset());
+
+
+  // To-Do List logic
+  const taskForm = document.getElementById('new-task-form');
+  const taskInput = document.getElementById('new-task');
+  const tasksList = document.getElementById('tasks-list');
+
   let tasks = JSON.parse(localStorage.getItem('tasks')) || [];
 
   function renderTasks() {
-    taskList.innerHTML = '';
-    tasks.forEach((task, idx) => {
+    tasksList.innerHTML = '';
+    tasks.forEach((task, index) => {
       const li = document.createElement('li');
       li.className = task.completed ? 'completed' : '';
-      li.setAttribute('tabindex', '0');
-      li.setAttribute('role', 'listitem');
       li.innerHTML = `
-        <label>
-          <input type="checkbox" ${task.completed ? 'checked' : ''} data-index="${idx}" aria-label="Mark task as done" />
-          ${escapeHtml(task.text)}
-        </label>
-        <button class="delete-btn" data-index="${idx}" aria-label="Delete task">&times;</button>
+        <span class="task-text" tabindex="0" role="checkbox" aria-checked="${task.completed}">${task.text}</span>
+        <button class="delete-btn" aria-label="Delete task">×</button>
       `;
-      taskList.appendChild(li);
+
+      // Toggle complete on task text click or keyboard Enter/Space
+      li.querySelector('.task-text').addEventListener('click', () => toggleComplete(index));
+      li.querySelector('.task-text').addEventListener('keydown', e => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          toggleComplete(index);
+        }
+      });
+
+      // Delete button
+      li.querySelector('.delete-btn').addEventListener('click', () => {
+        tasks.splice(index, 1);
+        saveAndRender();
+      });
+
+      tasksList.appendChild(li);
     });
   }
 
-  // Escape HTML to avoid XSS
-  function escapeHtml(text) {
-    return text.replace(/[&<>"']/g, function(m) {
-      return ({
-        '&': '&amp;',
-        '<': '&lt;',
-        '>': '&gt;',
-        '"': '&quot;',
-        "'": '&#39;'
-      })[m];
-    });
+  function toggleComplete(idx) {
+    tasks[idx].completed = !tasks[idx].completed;
+    saveAndRender();
   }
 
-  // Update tasks in localStorage
-  function updateTasks() {
+  function saveAndRender() {
     localStorage.setItem('tasks', JSON.stringify(tasks));
+    renderTasks();
   }
 
-  // Toggle complete
-  taskList.addEventListener('change', e => {
-    if (e.target.matches('input[type="checkbox"]')) {
-      const idx = e.target.dataset.index;
-      tasks[idx].completed = e.target.checked;
-      updateTasks();
-      renderTasks();
-    }
-  });
-
-  // Delete task with confirmation
-  taskList.addEventListener('click', e => {
-    if (e.target.matches('.delete-btn')) {
-      const idx = e.target.dataset.index;
-      if (confirm('Delete this task?')) {
-        tasks.splice(idx, 1);
-        updateTasks();
-        renderTasks();
-      }
-    }
-  });
-
-  taskForm.addEventListener('submit', e => {
+  taskForm.addEventListener('submit', (e) => {
     e.preventDefault();
-    const text = taskInput.value.trim();
-    if (text === '') return;
-    tasks.push({ text, completed: false });
-    updateTasks();
-    renderTasks();
+    const val = taskInput.value.trim();
+    if (val === '') return;
+    tasks.push({ text: val, completed: false });
     taskInput.value = '';
-    taskInput.focus();
+    saveAndRender();
   });
 
   renderTasks();
-
-  // ----- Timer -----
-  const pomodoroBtn = document.getElementById('pomodoro-btn');
-  const ultradianBtn = document.getElementById('ultradian-btn');
-  const timerLabel = document.getElementById('timer-label');
-  const timerDisplay = document.getElementById('timer-display');
-  const startPauseBtn = document.getElementById('start-pause-btn');
-  const resetBtn = document.getElementById('reset-btn');
-  const progressBarInner = document.getElementById('progress-bar-inner');
-
-  const MODES = {
-    pomodoro: { work: 25*60, break: 5*60 },
-    ultradian: { work: 90*60, break: 20*60 }
-  };
-
-  let currentMode = 'pomodoro';
-  let isWorkSession = true;
-  let timer = null;
-  let timeLeft = MODES[currentMode].work;
-  let isRunning = false;
-  let totalTime = timeLeft;
-
-  function updateDisplay() {
-    const minutes = Math.floor(timeLeft / 60).toString().padStart(2,'0');
-    const seconds = (timeLeft % 60).toString().padStart(2,'0');
-    timerDisplay.textContent = `${minutes}:${seconds}`;
-    timerLabel.textContent = isWorkSession ? 'Work Session' : 'Break Session';
-    progressBarInner.style.width = `${(1 - timeLeft/totalTime)*100}%`;
-  }
-
-  function switchMode(mode) {
-    if(isRunning) stopTimer();
-    currentMode = mode;
-    isWorkSession = true;
-    timeLeft = MODES[mode].work;
-    totalTime = timeLeft;
-    updateDisplay();
-    pomodoroBtn.classList.toggle('active', mode === 'pomodoro');
-    ultradianBtn.classList.toggle('active', mode === 'ultradian');
-    pomodoroBtn.setAttribute('aria-pressed', mode === 'pomodoro');
-    ultradianBtn.setAttribute('aria-pressed', mode === 'ultradian');
-    startPauseBtn.textContent = 'Start';
-  }
-
-  function playSound() {
-    const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-    const oscillator = audioCtx.createOscillator();
-    const gainNode = audioCtx.createGain();
-    oscillator.connect(gainNode);
-    gainNode.connect(audioCtx.destination);
-    oscillator.type = 'sine';
-    oscillator.frequency.setValueAtTime(440, audioCtx.currentTime);
-    oscillator.start();
-    gainNode.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + 1);
-    oscillator.stop(audioCtx.currentTime + 1);
-  }
-
-  function startTimer() {
-    if(isRunning) return;
-    isRunning = true;
-    startPauseBtn.textContent = 'Pause';
-
-    timer = setInterval(() => {
-      if(timeLeft > 0) {
-        timeLeft--;
-        updateDisplay();
-      } else {
-        // Switch session
-        playSound();
-        isWorkSession = !isWorkSession;
-        timeLeft = isWorkSession ? MODES[currentMode].work : MODES[currentMode].break;
-        totalTime = timeLeft;
-        updateDisplay();
-        alert(isWorkSession ? 'Work session started!' : 'Break time! Relax.');
-      }
-    }, 1000);
-  }
-
-  function stopTimer() {
-    if(timer) clearInterval(timer);
-    isRunning = false;
-    startPauseBtn.textContent = 'Start';
-  }
-
-  function resetTimer() {
-    stopTimer();
-    isWorkSession = true;
-    timeLeft = MODES[currentMode].work;
-    totalTime = timeLeft;
-    updateDisplay();
-  }
-
-  pomodoroBtn.addEventListener('click', () => switchMode('pomodoro'));
-  ultradianBtn.addEventListener('click', () => switchMode('ultradian'));
-  startPauseBtn.addEventListener('click', () => {
-    if(isRunning) stopTimer();
-    else startTimer();
-  });
-  resetBtn.addEventListener('click', resetTimer);
-
-  updateDisplay();
 </script>
-
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
