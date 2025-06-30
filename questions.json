@@ -1,163 +1,54 @@
 [
   {
+    "type": "MC",
     "event": "Entomology",
     "skill": "Multiple Choice",
     "difficulty": 1,
-    "question": "What is the function of the elytra in beetles?",
-    "choices": ["Feeding", "Protection", "Hearing", "Breathing"],
+    "year": "all",
+    "question": "What is the primary function of the elytra in beetles?",
+    "choices": ["Protection", "Feeding", "Breathing", "Reproduction"],
     "answer": "Protection"
   },
   {
-    "event": "Entomology",
-    "skill": "Multiple Choice",
-    "difficulty": 1,
-    "question": "Which insect produces honey?",
-    "choices": ["Bee", "Ant", "Butterfly", "Mosquito"],
-    "answer": "Bee"
-  },
-  {
-    "event": "Entomology",
-    "skill": "Multiple Choice",
-    "difficulty": 1,
-    "question": "What part of the insect's body contains the wings?",
-    "choices": ["Head", "Thorax", "Abdomen", "Legs"],
-    "answer": "Thorax"
-  },
-  {
+    "type": "MC",
     "event": "Entomology",
     "skill": "Multiple Choice",
     "difficulty": 2,
-    "question": "What type of metamorphosis does a butterfly undergo?",
-    "choices": ["Incomplete", "Complete", "No metamorphosis", "Gradual"],
-    "answer": "Complete"
-  },
-  {
-    "event": "Entomology",
-    "skill": "Multiple Choice",
-    "difficulty": 2,
-    "question": "What is the main purpose of the insect antennae?",
-    "choices": ["Hearing", "Smell", "Movement", "Breathing"],
-    "answer": "Smell"
-  },
-  {
-    "event": "Entomology",
-    "skill": "Multiple Choice",
-    "difficulty": 3,
-    "question": "In insect anatomy, what is the name of the hard exoskeleton plates?",
-    "choices": ["Sclerites", "Setae", "Spiracles", "Ocelli"],
-    "answer": "Sclerites"
-  },
-  {
-    "event": "Entomology",
-    "skill": "Multiple Choice",
-    "difficulty": 3,
-    "question": "Which insect order is characterized by having scales on their wings?",
-    "choices": ["Coleoptera", "Lepidoptera", "Diptera", "Hymenoptera"],
+    "year": "all",
+    "question": "Which insect order do butterflies belong to?",
+    "choices": ["Lepidoptera", "Coleoptera", "Diptera", "Hymenoptera"],
     "answer": "Lepidoptera"
   },
-
   {
+    "type": "MC",
     "event": "Disease Detectives",
     "skill": "Multiple Choice",
     "difficulty": 1,
-    "question": "What does 'incidence rate' measure?",
-    "choices": ["New cases", "Existing cases", "Deaths", "Recovered cases"],
-    "answer": "New cases"
+    "year": "all",
+    "question": "What does 'incidence rate' measure in epidemiology?",
+    "choices": ["Number of new cases in a population over a period", "Total number of cases", "Number of deaths", "Rate of recovery"],
+    "answer": "Number of new cases in a population over a period"
   },
   {
-    "event": "Disease Detectives",
-    "skill": "Multiple Choice",
-    "difficulty": 1,
-    "question": "Which of the following is a common mode of disease transmission?",
-    "choices": ["Airborne", "Photosynthesis", "Combustion", "Evaporation"],
-    "answer": "Airborne"
-  },
-  {
-    "event": "Disease Detectives",
-    "skill": "Multiple Choice",
-    "difficulty": 2,
-    "question": "What type of study observes a group over time to determine disease development?",
-    "choices": ["Cohort study", "Case-control study", "Cross-sectional study", "Experimental study"],
-    "answer": "Cohort study"
-  },
-  {
-    "event": "Disease Detectives",
-    "skill": "Multiple Choice",
-    "difficulty": 2,
-    "question": "Which measure estimates the strength of association between exposure and disease?",
-    "choices": ["Relative risk", "Prevalence", "Incidence", "Morbidity"],
-    "answer": "Relative risk"
-  },
-  {
+    "type": "MC",
     "event": "Disease Detectives",
     "skill": "Multiple Choice",
     "difficulty": 3,
-    "question": "What is a confounding variable?",
-    "choices": [
-      "A variable that distorts the association between exposure and outcome",
-      "A type of virus",
-      "An unrelated variable",
-      "A statistical test"
-    ],
-    "answer": "A variable that distorts the association between exposure and outcome"
+    "year": "all",
+    "question": "In an outbreak investigation, what is the primary purpose of a case-control study?",
+    "choices": ["To compare exposure histories between cases and controls", "To vaccinate the population", "To identify the pathogen by lab tests", "To monitor the outbreak curve"],
+    "answer": "To compare exposure histories between cases and controls"
   },
   {
-    "event": "Disease Detectives",
-    "skill": "Multiple Choice",
-    "difficulty": 3,
-    "question": "Which bias occurs when participants drop out of a longitudinal study?",
-    "choices": ["Attrition bias", "Selection bias", "Recall bias", "Detection bias"],
-    "answer": "Attrition bias"
-  },
-
-  {
+    "type": "MC",
     "event": "Anatomy and Physiology",
     "skill": "Multiple Choice",
-    "difficulty": 1,
-    "question": "Which part of the neuron receives signals?",
-    "choices": ["Axon", "Dendrite", "Myelin sheath", "Synapse"],
-    "answer": "Dendrite"
-  },
-  {
-    "event": "Anatomy and Physiology",
-    "skill": "Multiple Choice",
-    "difficulty": 1,
-    "question": "What organ produces insulin?",
-    "choices": ["Thyroid", "Pancreas", "Adrenal gland", "Pituitary gland"],
+    "difficulty": 2,
+    "year": "2025-2026",
+    "question": "Which gland produces insulin?",
+    "choices": ["Pancreas", "Thyroid", "Pituitary", "Adrenal"],
     "answer": "Pancreas"
-  },
-  {
-    "event": "Anatomy and Physiology",
-    "skill": "Multiple Choice",
-    "difficulty": 2,
-    "question": "Which lobe of the brain processes visual information?",
-    "choices": ["Frontal", "Occipital", "Temporal", "Parietal"],
-    "answer": "Occipital"
-  },
-  {
-    "event": "Anatomy and Physiology",
-    "skill": "Multiple Choice",
-    "difficulty": 2,
-    "question": "What is the role of the hypothalamus?",
-    "choices": ["Regulate hormones", "Control heart rate", "Digest food", "Filter blood"],
-    "answer": "Regulate hormones"
-  },
-  {
-    "event": "Anatomy and Physiology",
-    "skill": "Multiple Choice",
-    "difficulty": 3,
-    "question": "Which gland secretes adrenocorticotropic hormone (ACTH)?",
-    "choices": ["Pituitary gland", "Thyroid gland", "Adrenal gland", "Pineal gland"],
-    "answer": "Pituitary gland"
-  },
-  {
-    "event": "Anatomy and Physiology",
-    "skill": "Multiple Choice",
-    "difficulty": 3,
-    "question": "Where are the photoreceptors located in the eye?",
-    "choices": ["Cornea", "Retina", "Lens", "Iris"],
-    "answer": "Retina"
   }
-
 ]
+
 
