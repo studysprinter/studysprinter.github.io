@@ -4,129 +4,17 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Science Olympiad Prep</title>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet" />
   <style>
-    /* ... same CSS as before ... */
-    * {
-      box-sizing: border-box;
-    }
-    body, html {
-      margin: 0;
-      padding: 0;
-      height: 100%;
-      font-family: 'Inter', sans-serif;
-      background-color: #121212;
-      color: #e0e0e0;
-      display: flex;
-      overflow: hidden;
-    }
-    .sidebar {
-      width: 280px;
-      background: #1e1e1e;
-      box-shadow: 3px 0 15px rgba(0,0,0,0.7);
-      padding: 30px 25px;
-      display: flex;
-      flex-direction: column;
-      overflow-y: auto;
-    }
-    .sidebar h2 {
-      font-weight: 800;
-      font-size: 1.5rem;
-      margin-bottom: 20px;
-      color: #4caf50;
-      letter-spacing: 2px;
-      user-select: none;
-      border-bottom: 1px solid #333;
-      padding-bottom: 10px;
-    }
-    .sidebar button {
-      background: #4caf50;
-      border: none;
-      color: #121212;
-      font-weight: 700;
-      padding: 14px 20px;
-      margin-bottom: 15px;
-      border-radius: 6px;
-      cursor: pointer;
-      font-size: 1rem;
-      transition: background 0.3s ease;
-      user-select: none;
-      box-shadow: 0 3px 6px rgba(76,175,80,0.4);
-    }
-    .sidebar button:hover {
-      background: #43a047;
-      box-shadow: 0 4px 12px rgba(67,160,71,0.6);
-    }
-    .sidebar select {
-      background: #2a2a2a;
-      border: none;
-      color: #eee;
-      padding: 12px 16px;
-      border-radius: 5px;
-      margin-bottom: 25px;
-      font-size: 1rem;
-      cursor: pointer;
-      font-weight: 600;
-    }
-    #eventsSection {
-      margin-top: 30px;
-      display: none;
-      flex-direction: column;
-    }
-    #eventsSection.active {
-      display: flex;
-    }
-    #eventsSection h3 {
-      font-weight: 700;
-      font-size: 1.15rem;
-      margin-bottom: 10px;
-      color: #7fff7f;
-      user-select: none;
-    }
-    .main {
-      flex-grow: 1;
-      padding: 50px 60px;
-      overflow-y: auto;
-      background: #181818;
-      box-shadow: inset 0 0 50px #000000cc;
-    }
-    .main h1 {
-      font-weight: 900;
-      font-size: 2.8rem;
-      margin-bottom: 25px;
-      letter-spacing: 2px;
-      color: #4caf50;
-    }
-    .main p, .main form {
-      font-size: 1.25rem;
-      max-width: 680px;
-      line-height: 1.6;
-      color: #ccc;
-    }
-    .main input[type="text"], .main .choice {
-      padding: 10px;
-      font-size: 1rem;
-      width: 100%;
-      margin-top: 10px;
-      margin-bottom: 10px;
-      border-radius: 4px;
-      border: none;
-      background-color: #2a2a2a;
-      color: #eee;
-    }
-    .main button.submit {
-      padding: 10px 15px;
-      font-size: 1rem;
-      background-color: #4caf50;
-      color: black;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-    }
-    .feedback {
-      margin-top: 20px;
-      font-weight: bold;
-    }
+    body { font-family: Arial, sans-serif; background: #121212; color: #e0e0e0; margin: 0; display: flex; height: 100vh; }
+    .sidebar { background: #1e1e1e; padding: 20px; width: 280px; display: flex; flex-direction: column; }
+    .sidebar button, select { margin-bottom: 15px; padding: 10px; border: none; border-radius: 5px; font-size: 1rem; cursor: pointer; }
+    .sidebar button { background: #4caf50; color: black; font-weight: bold; }
+    .sidebar button:hover { background: #43a047; }
+    .main { flex-grow: 1; padding: 30px; overflow-y: auto; }
+    h1 { color: #4caf50; }
+    label { display: block; margin: 8px 0 4px; }
+    form button { margin-top: 10px; }
+    #feedback { margin-top: 15px; font-weight: bold; }
   </style>
 </head>
 <body>
@@ -136,14 +24,14 @@
     <button onclick="selectDivision('C')">Science Olympiad Division C</button>
     <button onclick="goBack()">⬅ Back</button>
 
-    <div id="eventsSection">
-      <h3>Choose Event</h3>
+    <div id="eventsSection" style="display:none;">
+      <label for="eventSelect">Choose Event</label>
       <select id="eventSelect" onchange="updateSkills()"></select>
 
-      <h3>Choose Skill</h3>
+      <label for="skillSelect">Choose Skill</label>
       <select id="skillSelect"></select>
 
-      <h3>Choose Year</h3>
+      <label for="yearSelect">Choose Year</label>
       <select id="yearSelect">
         <option>2025</option>
         <option>2024</option>
@@ -152,7 +40,7 @@
         <option>2021</option>
       </select>
 
-      <button id="nextQuestionBtn">Next Question</button>
+      <button onclick="nextQuestion()">Next Question</button>
     </div>
   </div>
 
@@ -162,133 +50,126 @@
   </div>
 
   <script>
-    document.addEventListener('DOMContentLoaded', () => {
-      const events = {
-        B: ['Entomology', 'Disease Detectives', 'Anatomy and Physiology'],
-        C: []
-      };
+    const events = {
+      B: ['Entomology', 'Disease Detectives', 'Anatomy and Physiology'],
+      C: []
+    };
 
-      const skills = {
-        'Entomology': ['Identification', 'Multiple Choice', 'Everything Else'],
-        'Disease Detectives': ['Math', 'Vocab', 'Full Case Studies', 'Everything Else'],
-        'Anatomy and Physiology': ['Diagrams', 'Multiple Choice', 'Everything Else']
-      };
+    const skills = {
+      'Entomology': ['Identification', 'Multiple Choice', 'Everything Else'],
+      'Disease Detectives': ['Math', 'Vocab', 'Full Case Studies', 'Everything Else'],
+      'Anatomy and Physiology': ['Diagrams', 'Multiple Choice', 'Everything Else']
+    };
 
-      let allQuestions = [];
-      let currentQuestion = null;
+    let currentDivision = null;
 
-      window.selectDivision = function(division) {
-        const eventSelect = document.getElementById('eventSelect');
-        const main = document.getElementById('mainContent');
-        const eventsSection = document.getElementById('eventsSection');
-
-        eventSelect.innerHTML = '';
-        events[division].forEach(event => {
-          const opt = document.createElement('option');
-          opt.value = event;
-          opt.textContent = event;
-          eventSelect.appendChild(opt);
-        });
-        eventsSection.classList.add('active');
-        updateSkills();
-        main.innerHTML = `<h1>Division ${division} - Question Page</h1><p>Select an event, skill, and year on the left, then click Next Question.</p>`;
-
-        fetch('questions.json')
-          .then(res => res.json())
-          .then(data => {
-            allQuestions = data;
-            loadQuestion();  // Load first question automatically after fetching
-          });
-      };
-
-      window.updateSkills = function() {
-        const event = document.getElementById('eventSelect').value;
-        const skillSelect = document.getElementById('skillSelect');
-
-        skillSelect.innerHTML = '';
-        (skills[event] || []).forEach(skill => {
-          const opt = document.createElement('option');
-          opt.value = skill;
-          opt.textContent = skill;
-          skillSelect.appendChild(opt);
-        });
-      };
-
-      document.getElementById('nextQuestionBtn').addEventListener('click', loadQuestion);
-      document.getElementById('eventSelect').addEventListener('change', () => {
-        updateSkills();
-        loadQuestion();
+    function selectDivision(div) {
+      currentDivision = div;
+      const eventSelect = document.getElementById('eventSelect');
+      eventSelect.innerHTML = '';
+      events[div].forEach(ev => {
+        const opt = document.createElement('option');
+        opt.value = ev;
+        opt.textContent = ev;
+        eventSelect.appendChild(opt);
       });
-      document.getElementById('skillSelect').addEventListener('change', loadQuestion);
-      document.getElementById('yearSelect').addEventListener('change', loadQuestion);
+      updateSkills();
+      document.getElementById('eventsSection').style.display = 'block';
+      document.getElementById('mainContent').innerHTML = `<h1>Division ${div} - Question Page</h1><p>Select an event, skill, and year on the left, then click Next Question.</p>`;
+    }
 
-      window.loadQuestion = function() {
-        const event = document.getElementById('eventSelect').value;
-        const skill = document.getElementById('skillSelect').value;
-        const year = parseInt(document.getElementById('yearSelect').value);
-        const main = document.getElementById('mainContent');
+    function updateSkills() {
+      const event = document.getElementById('eventSelect').value;
+      const skillSelect = document.getElementById('skillSelect');
+      skillSelect.innerHTML = '';
+      (skills[event] || []).forEach(skill => {
+        const opt = document.createElement('option');
+        opt.value = skill;
+        opt.textContent = skill;
+        skillSelect.appendChild(opt);
+      });
+    }
 
-        const matches = allQuestions.filter(q =>
-          q.event === event &&
-          q.skill === skill &&
-          (q.year === year || q.year === "all")
-        );
+    async function nextQuestion() {
+      const event = document.getElementById('eventSelect').value;
+      const skill = document.getElementById('skillSelect').value;
+      const year = document.getElementById('yearSelect').value;
 
-        if (matches.length === 0) {
-          main.innerHTML = `<h1>${event}</h1><p>No questions found for selected filters.</p>`;
-          return;
-        }
+      const main = document.getElementById('mainContent');
+      main.innerHTML = `<p>Loading question...</p>`;
 
-        currentQuestion = matches[Math.floor(Math.random() * matches.length)];
+      try {
+        const res = await fetch('http://localhost:5000/generate-question', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ event, skill, year })
+        });
+
+        if (!res.ok) throw new Error('Network response was not ok');
+
+        const q = await res.json();
 
         let formHTML = '';
-        if (currentQuestion.type === 'MC' && Array.isArray(currentQuestion.choices)) {
-          formHTML += `<form onsubmit="checkAnswer(event, '${currentQuestion.answer}')">`;
-          currentQuestion.choices.forEach((choice) => {
-            formHTML += `<label><input type="radio" name="userAnswer" value="${choice}" required> ${choice}</label><br/>`;
+        if (q.type === 'MC' && Array.isArray(q.choices)) {
+          formHTML += `<form id="answerForm">`;
+          q.choices.forEach((choice, i) => {
+            formHTML += `<label><input type="radio" name="userAnswer" value="${choice}" required> ${choice}</label>`;
           });
-          formHTML += `<button class="submit" type="submit">Submit</button></form>`;
+          formHTML += `<button type="submit">Submit</button></form>`;
         } else {
           formHTML = `
-            <form onsubmit="checkAnswer(event, '${currentQuestion.answer}')">
+            <form id="answerForm">
               <input type="text" id="userAnswer" placeholder="Type your answer here..." required />
-              <button class="submit" type="submit">Submit</button>
+              <button type="submit">Submit</button>
             </form>
           `;
         }
 
         main.innerHTML = `
-          <h1>${event} - ${skill} (${year})</h1>
-          <p>${currentQuestion.question}</p>
+          <h1>${q.event} - ${q.skill} (${q.year})</h1>
+          <p>${q.question}</p>
           ${formHTML}
-          <div id="feedback" class="feedback"></div>
+          <div id="feedback"></div>
         `;
-      };
 
-      window.checkAnswer = function(event, correctAnswer) {
-        event.preventDefault();
-        const input = document.querySelector('input[name="userAnswer"]:checked') || document.getElementById('userAnswer');
-        const userAnswer = input ? input.value.trim().toLowerCase() : '';
-        const correct = correctAnswer.trim().toLowerCase();
-        const feedback = document.getElementById('feedback');
+        document.getElementById('answerForm').addEventListener('submit', function(e) {
+          e.preventDefault();
+          checkAnswer(q.answer);
+        });
 
-        if (userAnswer === correct) {
-          feedback.innerHTML = '<span style="color: #4caf50">✅ Correct!</span>';
-        } else {
-          feedback.innerHTML = `<span style="color: #f44336">❌ Incorrect.</span> Correct answer: <strong>${correctAnswer}</strong>`;
-        }
-      };
+      } catch (error) {
+        main.innerHTML = `<p>Error loading question: ${error.message}</p>`;
+      }
+    }
 
-      window.goBack = function() {
-        document.getElementById('eventsSection').classList.remove('active');
-        document.getElementById('mainContent').innerHTML = `
-          <h1>Welcome to Science Olympiad Prep</h1>
-          <p>Select a division to begin answering questions.</p>`;
-      };
-    });
+    function checkAnswer(correctAnswer) {
+      const inputs = document.querySelectorAll('input[name="userAnswer"]');
+      let userAnswer = '';
+      if (inputs.length > 0 && inputs[0].type === 'radio') {
+        inputs.forEach(i => { if(i.checked) userAnswer = i.value; });
+      } else {
+        const inputField = document.getElementById('userAnswer');
+        userAnswer = inputField ? inputField.value.trim() : '';
+      }
+
+      const feedback = document.getElementById('feedback');
+      if (userAnswer.toLowerCase() === correctAnswer.toLowerCase()) {
+        feedback.innerHTML = '<span style="color: #4caf50;">✅ Correct!</span>';
+      } else {
+        feedback.innerHTML = `<span style="color: #f44336;">❌ Incorrect.</span> Correct answer: <strong>${correctAnswer}</strong>`;
+      }
+    }
+
+    function goBack() {
+      document.getElementById('eventsSection').style.display = 'none';
+      document.getElementById('mainContent').innerHTML = `
+        <h1>Welcome to Science Olympiad Prep</h1>
+        <p>Select a division to begin answering questions.</p>`;
+    }
   </script>
 </body>
 </html>
+
 
 
 
